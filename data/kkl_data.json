@@ -1,0 +1,467 @@
+{
+    "settings": {
+        "site_title": "KKL Informatika UPGRIS 2026",
+        "tagline": "Satu Perjalanan. Seribu Kenangan.",
+        "subtext": "Portal resmi dokumentasi Kuliah Kerja Lapangan Program Studi Informatika Universitas PGRI Semarang 2026 ke Pulau Dewata Bali.",
+        "dates": "18—22 Agustus 2026",
+        "destination_title": "Semarang → Bali",
+        "countdown_start": "2026-08-18T06:00:00+07:00",
+        "logo": "assets/uploads/branding/logo_1793049567_7af0ed47.png",
+        "admin_pin": "upgris2026"
+    },
+    "profiles": [
+        {
+            "id": 1,
+            "name": "Luthfi",
+            "role": "Mahasiswa Informatika",
+            "bio": "Lead Engineer & Web Developer",
+            "photo": "assets/uploads/profiles/profile_1793046726_5e708eca.jpeg",
+            "sort_order": 1
+        },
+        {
+            "id": 2,
+            "name": "Dita Nur Ristiyana",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Dokumentasi & Creative Content",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 2
+        },
+        {
+            "id": 3,
+            "name": "Maeladia Zaskia Saputri",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Humas & Hubungan Industri",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 3
+        },
+        {
+            "id": 4,
+            "name": "Deva Ubadah Surul Anamta",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Logistik & Operasional KKL",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 4
+        },
+        {
+            "id": 5,
+            "name": "Panji Choirul Anam",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Media & Publikasi",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 5
+        },
+        {
+            "id": 6,
+            "name": "Ridho Dwiki Zakaria",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Acara & Makrab",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 6
+        },
+        {
+            "id": 7,
+            "name": "Andrey Raditya Al Hakim",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Dokumentasi Video",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 7
+        },
+        {
+            "id": 8,
+            "name": "Danar Bhanu Setiawan",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Desain & Kreatif",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 8
+        },
+        {
+            "id": 9,
+            "name": "Moch Afrizal Ferlindo",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Publikasi & Media Sosial",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 9
+        },
+        {
+            "id": 10,
+            "name": "Ismail Maulid Riwanto",
+            "role": "Mahasiswa Informatika",
+            "bio": "Tim Koordinator Lapangan",
+            "photo": "assets/img/profile-placeholder.svg",
+            "sort_order": 10
+        }
+    ],
+    "destinations": [
+        {
+            "id": 1,
+            "day_no": 1,
+            "name": "Pemberangkatan Kampus 1 UPGRIS",
+            "time": "06.00 – 07.00 WIB",
+            "category": "travel",
+            "route": "Semarang",
+            "lat": -6.9858,
+            "lng": 110.4357,
+            "desc": "Titik kumpul dan apel pelepasan rombongan mahasiswa KKL Informatika UPGRIS 2026."
+        },
+        {
+            "id": 2,
+            "day_no": 1,
+            "name": "Kunjungan Industri PT Victoria Care Indonesia",
+            "time": "08.00 – 09.30 WIB",
+            "category": "industry",
+            "route": "Kawasan Industri Candi",
+            "lat": -6.9748,
+            "lng": 110.367,
+            "desc": "Kunjungan industri melihat proses otomatisasi manufaktur dan implementasi sistem informasi pabrik."
+        },
+        {
+            "id": 3,
+            "day_no": 1,
+            "name": "Makan Siang di R.M. Titin Caruban",
+            "time": "12.00 – 13.00 WIB",
+            "category": "food",
+            "route": "Caruban, Madiun",
+            "lat": -7.544,
+            "lng": 111.657,
+            "desc": "Istirahat, ibadah, dan makan siang bersama rombongan bus KKL."
+        },
+        {
+            "id": 4,
+            "day_no": 1,
+            "name": "Makan Malam di R.M. Puritama",
+            "time": "18.00 – 19.30 WIB",
+            "category": "food",
+            "route": "Situbondo, Jatim",
+            "lat": -7.702,
+            "lng": 113.998,
+            "desc": "Transit makan malam sebelum melanjutkan perjalanan menuju pelabuhan penyeberangan."
+        },
+        {
+            "id": 5,
+            "day_no": 1,
+            "name": "Tiba di Pelabuhan Ketapang Banyuwangi",
+            "time": "23.00 WIB",
+            "category": "travel",
+            "route": "Banyuwangi",
+            "lat": -8.148,
+            "lng": 114.397,
+            "desc": "Persiapan penyeberangan Selat Bali menggunakan kapal feri menuju Pulau Dewata."
+        },
+        {
+            "id": 6,
+            "day_no": 2,
+            "name": "Penyeberangan & Tiba di Pelabuhan Gilimanuk",
+            "time": "04.00 – 05.00 WITA",
+            "category": "travel",
+            "route": "Gilimanuk, Bali",
+            "lat": -8.163,
+            "lng": 114.436,
+            "desc": "Selamat datang di Bali! Rombongan tiba di Pelabuhan Gilimanuk dan bergerak ke hotel transit."
+        },
+        {
+            "id": 7,
+            "day_no": 2,
+            "name": "Transit & Sarapan di Hotel Made Bali",
+            "time": "05.30 – 08.00 WITA",
+            "category": "hotel",
+            "route": "Sempidi, Badung",
+            "lat": -8.592,
+            "lng": 115.176,
+            "desc": "Mandi, bersih-bersih, transit, dan sarapan pagi untuk menyegarkan stamina."
+        },
+        {
+            "id": 8,
+            "day_no": 2,
+            "name": "Pabrik Kata-Kata Joger Luwus",
+            "time": "09.30 – 11.00 WITA",
+            "category": "tourism",
+            "route": "Tabanan",
+            "lat": -8.384,
+            "lng": 115.195,
+            "desc": "Eksplorasi kreativitas branding dan belanja oleh-oleh khas kata-kata unik Joger Bali."
+        },
+        {
+            "id": 9,
+            "day_no": 2,
+            "name": "Eksplorasi Danau & Candi Kuning Ulun Danu Beratan",
+            "time": "11.30 – 13.30 WITA",
+            "category": "tourism",
+            "route": "Bedugul",
+            "lat": -8.275,
+            "lng": 115.165,
+            "desc": "Menikmati keindahan ikonik pura di atas danau Bedugul yang sejuk serta makan siang bersama."
+        },
+        {
+            "id": 10,
+            "day_no": 2,
+            "name": "Pusat Oleh-Oleh Khas Bali Dewata",
+            "time": "16.00 – 18.00 WITA",
+            "category": "tourism",
+            "route": "Denpasar",
+            "lat": -8.672,
+            "lng": 115.228,
+            "desc": "Belanja suvenir khas Pulau Dewata dan makan malam bersama."
+        },
+        {
+            "id": 11,
+            "day_no": 2,
+            "name": "Pertunjukan Spektakuler Tari Devdan Show",
+            "time": "19.00 – 20.00 WITA",
+            "category": "culture",
+            "route": "Nusa Dua Theatre",
+            "lat": -8.799,
+            "lng": 115.231,
+            "desc": "Menyaksikan mahakarya teatrikal seni tari tradisional & modern Nusantara yang menakjubkan."
+        },
+        {
+            "id": 12,
+            "day_no": 2,
+            "name": "Check-in di Hotel Quest San Denpasar",
+            "time": "20.30 WITA",
+            "category": "hotel",
+            "route": "Denpasar Barat",
+            "lat": -8.681,
+            "lng": 115.205,
+            "desc": "Check-in kamar hotel, istirahat malam, dan free time mengumpulkan tenaga untuk hari ketiga."
+        },
+        {
+            "id": 13,
+            "day_no": 3,
+            "name": "Sarapan Pagi di Quest San Denpasar",
+            "time": "06.00 – 08.00 WITA",
+            "category": "hotel",
+            "route": "Denpasar",
+            "lat": -8.681,
+            "lng": 115.205,
+            "desc": "Buffet breakfast lezat di hotel dan persiapan kunjungan industri teknologi."
+        },
+        {
+            "id": 14,
+            "day_no": 3,
+            "name": "Kunjungan Balai Diklat Industri (BDI) Denpasar",
+            "time": "09.00 – 11.00 WITA",
+            "category": "industry",
+            "route": "Tohpati, Denpasar",
+            "lat": -8.665,
+            "lng": 115.242,
+            "desc": "Kunjungan IT & Kreatif: melihat pelatihan animasi, game development, dan teknologi digital industri kreatif Bali."
+        },
+        {
+            "id": 15,
+            "day_no": 3,
+            "name": "Belanja & Makan Siang di Krisna Sunset Road",
+            "time": "11.30 – 13.00 WITA",
+            "category": "tourism",
+            "route": "Kuta",
+            "lat": -8.71,
+            "lng": 115.178,
+            "desc": "Makan siang dan belanja oleh-oleh terbesar di Bali."
+        },
+        {
+            "id": 16,
+            "day_no": 3,
+            "name": "Eksplorasi Pantai Kuta",
+            "time": "13.30 – 15.00 WITA",
+            "category": "tourism",
+            "route": "Kuta Beach",
+            "lat": -8.718,
+            "lng": 115.169,
+            "desc": "Menikmati deburan ombak legendaris Pantai Kuta bersama teman seangkatan."
+        },
+        {
+            "id": 17,
+            "day_no": 3,
+            "name": "Pesona Tebing Tebal Pantai Pandawa",
+            "time": "15.30 – 17.30 WITA",
+            "category": "tourism",
+            "route": "Kutuh, Kuta Selatan",
+            "lat": -8.845,
+            "lng": 115.186,
+            "desc": "Menikmati tebing kapur megah dengan patung panca pandawa dan air laut toska."
+        },
+        {
+            "id": 18,
+            "day_no": 3,
+            "name": "Pementasan Tari Kecak Sunset Pandawa",
+            "time": "18.00 – 19.00 WITA",
+            "category": "culture",
+            "route": "Amphitheater Pandawa",
+            "lat": -8.845,
+            "lng": 115.187,
+            "desc": "Pengalaman magis menyaksikan Tari Kecak diiringi senja matahari terbenam Bali."
+        },
+        {
+            "id": 19,
+            "day_no": 3,
+            "name": "Malam Keakraban (Makrab) & Dinner Cafe Jimbaran",
+            "time": "19.30 – 22.30 WITA",
+            "category": "food",
+            "route": "Pantai Jimbaran",
+            "lat": -8.768,
+            "lng": 115.167,
+            "desc": "Makan malam seafood tepi pantai, musik, serta malam keakraban mahasiswa dan dosen Informatika UPGRIS."
+        },
+        {
+            "id": 20,
+            "day_no": 3,
+            "name": "Kembali Istirahat di Quest San Denpasar",
+            "time": "23.00 WITA",
+            "category": "hotel",
+            "route": "Denpasar",
+            "lat": -8.681,
+            "lng": 115.205,
+            "desc": "Kembali ke hotel dan istirahat."
+        },
+        {
+            "id": 21,
+            "day_no": 4,
+            "name": "Breakfast & Check Out Hotel Quest San",
+            "time": "06.00 – 08.00 WITA",
+            "category": "hotel",
+            "route": "Denpasar",
+            "lat": -8.681,
+            "lng": 115.205,
+            "desc": "Sarapan pagi dan proses check out dari hotel."
+        },
+        {
+            "id": 22,
+            "day_no": 4,
+            "name": "Belanja Oleh-Oleh Karang Kurnia",
+            "time": "09.30 – 11.30 WITA",
+            "category": "tourism",
+            "route": "Tuban",
+            "lat": -8.66,
+            "lng": 115.21,
+            "desc": "Kesempatan terakhir membeli cinderamata dan camilan khas Bali."
+        },
+        {
+            "id": 23,
+            "day_no": 4,
+            "name": "Makan Siang di R.M. Soka Indah",
+            "time": "12.30 – 13.30 WITA",
+            "category": "food",
+            "route": "Pantai Soka, Tabanan",
+            "lat": -8.502,
+            "lng": 115.021,
+            "desc": "Makan siang sambil menikmati panorama pantai barat Bali dalam perjalanan menuju pelabuhan."
+        },
+        {
+            "id": 24,
+            "day_no": 4,
+            "name": "Penyeberangan Gilimanuk → Ketapang",
+            "time": "16.30 – 18.00 WIB",
+            "category": "travel",
+            "route": "Selat Bali",
+            "lat": -8.148,
+            "lng": 114.397,
+            "desc": "Menyeberang kembali ke Pulau Jawa dengan kapal feri."
+        },
+        {
+            "id": 25,
+            "day_no": 4,
+            "name": "Makan Malam di Local Resto Jawa Timur",
+            "time": "20.00 – 21.00 WIB",
+            "category": "food",
+            "route": "Probolinggo / Situbondo",
+            "lat": -7.75,
+            "lng": 113.22,
+            "desc": "Makan malam dan istirahat sebelum perjalanan bus malam via tol trans jawa."
+        },
+        {
+            "id": 26,
+            "day_no": 4,
+            "name": "Perjalanan Malam Menuju Semarang",
+            "time": "21.30 – Subuh",
+            "category": "travel",
+            "route": "Tol Trans Jawa",
+            "lat": -7.2504,
+            "lng": 112.7688,
+            "desc": "Perjalanan non-stop pulang menuju Semarang."
+        },
+        {
+            "id": 27,
+            "day_no": 5,
+            "name": "Tiba di Kampus Tercinta UPGRIS Semarang",
+            "time": "05.00 WIB",
+            "category": "travel",
+            "route": "Kampus 1 UPGRIS, Semarang",
+            "lat": -6.9858,
+            "lng": 110.4357,
+            "desc": "Alhamdulillah seluruh rombongan tiba dengan selamat di kampus tercinta dengan membawa sejuta pengalaman dan kenangan tak terlupakan!"
+        }
+    ],
+    "gallery": [
+        {
+            "id": 1,
+            "title": "Kemegahan Pura Ulun Danu Beratan",
+            "location": "Bedugul, Bali",
+            "category": "wisata",
+            "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+            "id": 2,
+            "title": "Tari Kecak di Ujung Senja",
+            "location": "Pantai Pandawa, Bali",
+            "category": "budaya",
+            "image": "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+            "id": 3,
+            "title": "Deburan Ombak & Sunset Pantai Kuta",
+            "location": "Kuta Beach, Bali",
+            "category": "wisata",
+            "image": "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+            "id": 4,
+            "title": "Kunjungan Industri & Teknologi Informasi",
+            "location": "BDI Denpasar / Victoria Care",
+            "category": "industri",
+            "image": "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+            "id": 5,
+            "title": "Pesona Tebing Megah Pandawa",
+            "location": "Pantai Pandawa",
+            "category": "wisata",
+            "image": "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80"
+        },
+        {
+            "id": 6,
+            "title": "Hangatnya Kebersamaan Malam Keakraban",
+            "location": "Jimbaran Bay, Bali",
+            "category": "kebersamaan",
+            "image": "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80"
+        }
+    ],
+    "videos": [
+        {
+            "id": 1,
+            "title": "Aftermovie KKL Informatika UPGRIS - Menjelajah Pulau Dewata",
+            "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+        }
+    ],
+    "feedback": [
+        {
+            "id": 1,
+            "name": "Dimas Arya (Informatika 23)",
+            "rating": 5,
+            "date": "22 Agustus 2026",
+            "message": "KKL terbaik sepanjang masa! Ga cuma belajar tentang industri software dan animasi di BDI Denpasar, tapi makrab di tepi pantai Jimbaran benar-benar bikin angkatan makin solid. Makasih panitia UPGRIS!"
+        },
+        {
+            "id": 2,
+            "name": "Siti Aulia",
+            "rating": 5,
+            "date": "21 Agustus 2026",
+            "message": "Pemandangan di Danau Beratan dingin sejuk banget, pas sore di Pandawa nonton Tari Kecak sunset merinding indahnya. Perjalanan 5 hari ga berasa cepat banget lewatnya."
+        },
+        {
+            "id": 3,
+            "name": "Rizky Kurniawan",
+            "rating": 5,
+            "date": "20 Agustus 2026",
+            "message": "Website ini keren banget dokumentasinya, lengkap dari rundown jam ke jam sampai petanya. Kenangan seumur hidup kuliah di UPGRIS!"
+        }
+    ]
+}

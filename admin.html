@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Admin — KKL Informatika UPGRIS 2026</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+
+  <style>
+    body { background: #eef4f0; }
+    .admin-wrapper { max-width: 1140px; margin: 30px auto; padding: 0 20px; }
+    .admin-card {
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .admin-nav-tabs {
+      display: flex;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .admin-nav-tab {
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      color: var(--text-main);
+      transition: all .2s;
+    }
+    .admin-nav-tab.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 18px;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      background: #fbfdfc;
+    }
+    .item-row:hover { background: #ffffff; border-color: var(--border); }
+    .btn-danger-sm {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+      border-radius: var(--radius-full);
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-danger-sm:hover { background: #fca5a5; }
+    .badge-pin {
+      background: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fde68a;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .login-box {
+      max-width: 440px;
+      margin: 80px auto;
+      background: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Screen 1: Simple PIN Login (Tanpa database server!) -->
+  <div id="loginScreen" class="login-box">
+    <div style="font-size: 38px; margin-bottom: 12px;">🔐</div>
+    <h2>Studio Admin KKL</h2>
+    <p style="font-size: 14px; margin-bottom: 24px;">Pengelolaan konten mandiri tanpa database SQL. Masukkan PIN untuk mengakses.</p>
+    
+    <form id="loginForm">
+      <div class="form-group" style="text-align:left;">
+        <label for="pinInput">PIN Masuk Admin</label>
+        <input type="password" id="pinInput" class="form-control" placeholder="Default: upgris2026" required autocomplete="current-password" autofocus>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;">Masuk ke Studio</button>
+      <p style="font-size:12px;color:var(--text-light);margin-top:14px;">PIN bawaan: <strong>upgris2026</strong> (Bisa diganti di dalam)</p>
+      <div style="margin-top: 16px;">
+        <a href="index.html" style="font-size:13px;color:var(--primary);font-weight:700;">← Kembali ke Website</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Screen 2: Dashboard Panel (Muncul setelah PIN benar) -->
+  <div id="adminScreen" class="admin-wrapper" style="display:none;">
+    
+    <!-- Top Action Bar -->
+    <div class="admin-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h2 style="margin:0;font-size:26px;">Studio Admin KKL 2026</h2>
+        <span class="badge-pin">Status: Zero-SQL Mode Aktif</span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn btn-gold" id="btnSaveData">💾 Simpan Perubahan</button>
+        <button class="btn btn-ghost" id="btnDownloadJson">📥 Unduh JSON</button>
+        <a class="btn btn-ghost" href="index.html" target="_blank">Lihat Web ↗</a>
+        <button class="btn btn-ghost" id="btnLogout" style="color:#b91c1c;">Keluar</button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-card">
+      <div class="admin-nav-tabs">
+        <button class="admin-nav-tab active" data-tab="tabSettings">⚙️ Pengaturan Web</button>
+        <button class="admin-nav-tab" data-tab="tabDestinations">📅 Agenda & Rundown</button>
+        <button class="admin-nav-tab" data-tab="tabGallery">📸 Galeri Foto</button>
+        <button class="admin-nav-tab" data-tab="tabProfiles">👥 Tim Mahasiswa</button>
+        <button class="admin-nav-tab" data-tab="tabFeedback">💬 Buku Tamu</button>
+      </div>
+
+      <!-- Tab 1: Settings -->
+      <div class="tab-panel active" id="tabSettings">
+        <h3 style="margin-bottom:18px;">Pengaturan Website & PIN</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="form-group">
+            <label>Judul Website</label>
+            <input type="text" id="setSiteTitle" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Tagline Banner</label>
+            <input type="text" id="setTagline" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Tanggal Pelaksanaan</label>
+            <input type="text" id="setDates" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Ganti PIN Masuk Admin</label>
+            <input type="text" id="setAdminPin" class="form-control" placeholder="PIN baru">
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Destinations -->
+      <div class="tab-panel" id="tabDestinations">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <h3 style="margin:0;">Agenda & Rundown KKL (Total: <span id="countDest">0</span>)</h3>
+          <button class="btn btn-primary" id="btnOpenAddDest" style="font-size:12.5px;padding:8px 16px;">+ Tambah Agenda</button>
+        </div>
+
+        <!-- Add Destination Form (Hidden by default) -->
+        <div id="addDestBox" style="display:none;background:var(--bg-soft);padding:20px;border-radius:var(--radius-md);margin-bottom:20px;border:1px solid var(--border);">
+          <h4 style="margin-bottom:14px;">Tambah Agenda Baru</h4>
+          <div style="display:grid;grid-template-columns:1fr 2fr 1fr;gap:14px;">
+            <div class="form-group">
+              <label>Hari Ke-</label>
+              <select id="newDestDay" class="form-control">
+                <option value="1">Hari 1</option>
+                <option value="2">Hari 2</option>
+                <option value="3">Hari 3</option>
+                <option value="4">Hari 4</option>
+                <option value="5">Hari 5</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nama Agenda / Lokasi</label>
+              <input type="text" id="newDestName" class="form-control" placeholder="Contoh: Pantai Melasti">
+            </div>
+            <div class="form-group">
+              <label>Jam / Waktu</label>
+              <input type="text" id="newDestTime" class="form-control" placeholder="Contoh: 14.00 – 16.00 WITA">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 2fr;gap:14px;">
+            <div class="form-group">
+              <label>Kategori</label>
+              <select id="newDestCat" class="form-control">
+                <option value="tourism">🏖️ Wisata & Belanja</option>
+                <option value="culture">🎭 Seni & Budaya</option>
+                <option value="industry">🏢 Kunjungan Industri</option>
+                <option value="food">🍽️ Kuliner & Makan</option>
+                <option value="hotel">🏨 Akomodasi Hotel</option>
+                <option value="travel">🚌 Rute Perjalanan</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Keterangan Kegiatan</label>
+              <input type="text" id="newDestDesc" class="form-control" placeholder="Deskripsi singkat kegiatan">
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;">
+            <button class="btn btn-primary" id="btnConfirmAddDest" style="padding:8px 18px;">Simpan ke Daftar</button>
+            <button class="btn btn-ghost" id="btnCancelAddDest" style="padding:8px 18px;">Batal</button>
+          </div>
+        </div>
+
+        <div id="destAdminList"></div>
+      </div>
+
+      <!-- Tab 3: Gallery -->
+      <div class="tab-panel" id="tabGallery">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+          <h3 style="margin:0;">Dokumentasi Foto Galeri (Total: <span id="countGal">0</span>)</h3>
+          <button class="btn btn-primary" id="btnOpenAddPhoto" style="font-size:12.5px;padding:8px 16px;">+ Tambah Foto</button>
+        </div>
+
+        <!-- Add Photo Box -->
+        <div id="addPhotoBox" style="display:none;background:var(--bg-soft);padding:20px;border-radius:var(--radius-md);margin-bottom:20px;border:1px solid var(--border);">
+          <h4 style="margin-bottom:14px;">Tambah Foto Baru</h4>
+          <div style="display:grid;grid-template-columns:2fr 1fr;gap:14px;">
+            <div class="form-group">
+              <label>Judul Foto</label>
+              <input type="text" id="newPhotoTitle" class="form-control" placeholder="Contoh: Sunset di Pantai Kuta">
+            </div>
+            <div class="form-group">
+              <label>Kategori</label>
+              <select id="newPhotoCat" class="form-control">
+                <option value="wisata">Wisata</option>
+                <option value="budaya">Budaya</option>
+                <option value="industri">Industri</option>
+                <option value="kebersamaan">Kebersamaan</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>URL Gambar / Link Foto</label>
+            <input type="url" id="newPhotoUrl" class="form-control" placeholder="https://... atau assets/uploads/gallery/...">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:10px;">
+            <button class="btn btn-primary" id="btnConfirmAddPhoto" style="padding:8px 18px;">Tambahkan Foto</button>
+            <button class="btn btn-ghost" id="btnCancelAddPhoto" style="padding:8px 18px;">Batal</button>
+          </div>
+        </div>
+
+        <div id="galAdminList"></div>
+      </div>
+
+      <!-- Tab 4: Profiles -->
+      <div class="tab-panel" id="tabProfiles">
+        <h3 style="margin-bottom:18px;">Profil Mahasiswa & Pengembang</h3>
+        <div id="profAdminList"></div>
+      </div>
+
+      <!-- Tab 5: Feedback Moderation -->
+      <div class="tab-panel" id="tabFeedback">
+        <h3 style="margin-bottom:18px;">Moderasi Pesan Buku Tamu</h3>
+        <div id="fbAdminList"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      let data = null;
+      const validPin = "upgris2026";
+
+      // 1. Check Auth state
+      function checkAuth() {
+        if (sessionStorage.getItem('kkl_admin_logged') === 'true') {
+          document.getElementById('loginScreen').style.display = 'none';
+          document.getElementById('adminScreen').style.display = 'block';
+          initStudio();
+        } else {
+          document.getElementById('loginScreen').style.display = 'block';
+          document.getElementById('adminScreen').style.display = 'none';
+        }
+      }
+
+      // 2. Handle Login
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const pin = document.getElementById('pinInput').value.trim();
+        const storedPin = (data && data.settings && data.settings.admin_pin) ? data.settings.admin_pin : validPin;
+
+        if (pin === storedPin) {
+          sessionStorage.setItem('kkl_admin_logged', 'true');
+          checkAuth();
+        } else {
+          alert('PIN salah! Silakan coba lagi.');
+        }
+      });
+
+      // 3. Logout
+      document.getElementById('btnLogout').addEventListener('click', () => {
+        sessionStorage.removeItem('kkl_admin_logged');
+        checkAuth();
+      });
+
+      // 4. Load Data
+      async function loadData() {
+        try {
+          const res = await fetch('./data/kkl_data.json?v=' + Date.now());
+          data = await res.json();
+        } catch(e) {
+          alert('Gagal memuat file data/kkl_data.json.');
+        }
+      }
+
+      // 5. Init Studio UI
+      async function initStudio() {
+        if (!data) await loadData();
+        renderSettings();
+        renderDestList();
+        renderGalList();
+        renderProfList();
+        renderFbList();
+      }
+
+      // Settings
+      function renderSettings() {
+        const s = data.settings || {};
+        document.getElementById('setSiteTitle').value = s.site_title || '';
+        document.getElementById('setTagline').value = s.tagline || '';
+        document.getElementById('setDates').value = s.dates || '';
+        document.getElementById('setAdminPin').value = s.admin_pin || 'upgris2026';
+      }
+
+      // Destinations CRUD
+      function renderDestList() {
+        const list = document.getElementById('destAdminList');
+        const items = data.destinations || [];
+        document.getElementById('countDest').textContent = items.length;
+
+        list.innerHTML = items.map((item, idx) => `
+          <div class="item-row">
+            <div>
+              <strong>[Hari ${item.day_no}] ${escapeHtml(item.name)}</strong>
+              <div style="font-size:12.5px;color:var(--text-muted);">${item.time || ''} • ${item.category || ''}</div>
+            </div>
+            <button class="btn-danger-sm" onclick="window._delDest(${idx})">Hapus</button>
+          </div>
+        `).join('');
+      }
+
+      window._delDest = function(idx) {
+        if (confirm('Hapus agenda ini dari jadwal?')) {
+          data.destinations.splice(idx, 1);
+          renderDestList();
+        }
+      };
+
+      // Add Destination toggle
+      document.getElementById('btnOpenAddDest').onclick = () => document.getElementById('addDestBox').style.display = 'block';
+      document.getElementById('btnCancelAddDest').onclick = () => document.getElementById('addDestBox').style.display = 'none';
+      document.getElementById('btnConfirmAddDest').onclick = () => {
+        const name = document.getElementById('newDestName').value.trim();
+        const time = document.getElementById('newDestTime').value.trim();
+        const day = parseInt(document.getElementById('newDestDay').value) || 1;
+        const cat = document.getElementById('newDestCat').value;
+        const desc = document.getElementById('newDestDesc').value.trim();
+
+        if (!name) return alert('Nama agenda wajib diisi!');
+        data.destinations.push({
+          id: Date.now(),
+          day_no: day,
+          name: name,
+          time: time,
+          category: cat,
+          desc: desc
+        });
+
+        document.getElementById('addDestBox').style.display = 'none';
+        renderDestList();
+      };
+
+      // Gallery CRUD
+      function renderGalList() {
+        const list = document.getElementById('galAdminList');
+        const items = data.gallery || [];
+        document.getElementById('countGal').textContent = items.length;
+
+        list.innerHTML = items.map((item, idx) => `
+          <div class="item-row">
+            <div style="display:flex;align-items:center;gap:14px;">
+              <img src="${escapeHtml(item.image)}" style="width:50px;height:50px;border-radius:8px;object-fit:cover;">
+              <div>
+                <strong>${escapeHtml(item.title)}</strong>
+                <div style="font-size:12px;color:var(--text-muted);">Kategori: ${item.category} • ${item.location || ''}</div>
+              </div>
+            </div>
+            <button class="btn-danger-sm" onclick="window._delPhoto(${idx})">Hapus</button>
+          </div>
+        `).join('');
+      }
+
+      window._delPhoto = function(idx) {
+        if (confirm('Hapus foto ini?')) {
+          data.gallery.splice(idx, 1);
+          renderGalList();
+        }
+      };
+
+      document.getElementById('btnOpenAddPhoto').onclick = () => document.getElementById('addPhotoBox').style.display = 'block';
+      document.getElementById('btnCancelAddPhoto').onclick = () => document.getElementById('addPhotoBox').style.display = 'none';
+      document.getElementById('btnConfirmAddPhoto').onclick = () => {
+        const title = document.getElementById('newPhotoTitle').value.trim();
+        const cat = document.getElementById('newPhotoCat').value;
+        const url = document.getElementById('newPhotoUrl').value.trim();
+
+        if (!title || !url) return alert('Judul dan URL foto wajib diisi!');
+        data.gallery.push({
+          id: Date.now(),
+          title: title,
+          category: cat,
+          image: url,
+          location: 'Pulau Bali'
+        });
+
+        document.getElementById('addPhotoBox').style.display = 'none';
+        renderGalList();
+      };
+
+      // Profiles
+      function renderProfList() {
+        const list = document.getElementById('profAdminList');
+        const items = data.profiles || [];
+
+        list.innerHTML = items.map(p => `
+          <div class="item-row">
+            <div>
+              <strong>${escapeHtml(p.name)}</strong>
+              <div style="font-size:12.5px;color:var(--text-muted);">${escapeHtml(p.role || '')} • ${escapeHtml(p.bio || '')}</div>
+            </div>
+            <span style="font-size:12px;color:var(--gold-dark);font-weight:700;">Mahasiswa</span>
+          </div>
+        `).join('');
+      }
+
+      // Feedback Moderation
+      function renderFbList() {
+        const list = document.getElementById('fbAdminList');
+        let localFeedbacks = [];
+        try {
+          localFeedbacks = JSON.parse(localStorage.getItem('kkl_user_feedbacks') || '[]');
+        } catch(e) {}
+
+        const allFb = [...localFeedbacks, ...(data.feedback || [])];
+        list.innerHTML = allFb.map((fb, idx) => `
+          <div class="item-row">
+            <div>
+              <strong>${escapeHtml(fb.name)} (${fb.rating}★)</strong>
+              <p style="margin:4px 0 0;font-size:13px;color:var(--text-muted);">${escapeHtml(fb.message)}</p>
+            </div>
+            <button class="btn-danger-sm" onclick="window._delFb(${idx})">Hapus</button>
+          </div>
+        `).join('');
+      }
+
+      window._delFb = function(idx) {
+        if (confirm('Hapus komentar ini?')) {
+          let localFeedbacks = JSON.parse(localStorage.getItem('kkl_user_feedbacks') || '[]');
+          if (idx < localFeedbacks.length) {
+            localFeedbacks.splice(idx, 1);
+            localStorage.setItem('kkl_user_feedbacks', JSON.stringify(localFeedbacks));
+          } else {
+            const dataIdx = idx - localFeedbacks.length;
+            data.feedback.splice(dataIdx, 1);
+          }
+          renderFbList();
+        }
+      };
+
+      // Tab Switching
+      document.querySelectorAll('.admin-nav-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.admin-nav-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          this.classList.add('active');
+          document.getElementById(this.dataset.tab).classList.add('active');
+        });
+      });
+
+      // Save Changes
+      document.getElementById('btnSaveData').addEventListener('click', async () => {
+        // Collect settings
+        data.settings.site_title = document.getElementById('setSiteTitle').value.trim();
+        data.settings.tagline = document.getElementById('setTagline').value.trim();
+        data.settings.dates = document.getElementById('setDates').value.trim();
+        data.settings.admin_pin = document.getElementById('setAdminPin').value.trim() || 'upgris2026';
+
+        // 1. Try sending to api.php (works seamlessly on XAMPP or PHP servers)
+        try {
+          const res = await fetch('./api.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pin: data.settings.admin_pin, data: data })
+          });
+          const result = await res.json();
+          if (result.success) {
+            alert('✅ Berhasil! Data telah tersimpan secara permanen ke file data/kkl_data.json di server.');
+            return;
+          }
+        } catch(e) {
+          // If api.php isn't reachable (e.g. static host like Vercel or local file)
+        }
+
+        // 2. Fallback: Save to localStorage and notify download
+        localStorage.setItem('kkl_cached_data', JSON.stringify(data));
+        alert('✨ Perubahan tersimpan di browser! Jika dideploy ke Vercel/Netlify, klik tombol "📥 Unduh JSON" lalu gantikan file data/kkl_data.json.');
+      });
+
+      // Download JSON Button
+      document.getElementById('btnDownloadJson').addEventListener('click', () => {
+        const jsonStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+        const dlAnchor = document.createElement('a');
+        dlAnchor.setAttribute("href", jsonStr);
+        dlAnchor.setAttribute("download", "kkl_data.json");
+        document.body.appendChild(dlAnchor);
+        dlAnchor.click();
+        dlAnchor.remove();
+      });
+
+      function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      loadData().then(checkAuth);
+    })();
+  </script>
+</body>
+</html>
