@@ -6,3 +6,16 @@ Desktop.ini
 
 # Logs
 *.log
+
+# Uploaded files & user-generated content
+assets/uploads/profiles/
+assets/uploads/gallery/
+assets/uploads/branding/
+
+# Temp files
+*.tmp
+*~
+
+# Environment
+.env
+.env.local

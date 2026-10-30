@@ -12,9 +12,9 @@
     "profiles": [
         {
             "id": 1,
-            "name": "Luthfi",
-            "role": "Mahasiswa Informatika",
-            "bio": "Lead Engineer & Web Developer",
+            "name": "Muhamad Luthfi Abdullah",
+            "role": "Lead Developer & System Architect",
+            "bio": "Pengembang Utama Web Portal KKL Informatika 2026",
             "photo": "assets/uploads/profiles/profile_1793046726_5e708eca.jpeg",
             "sort_order": 1
         },
@@ -438,7 +438,8 @@
         {
             "id": 1,
             "title": "Aftermovie KKL Informatika UPGRIS - Menjelajah Pulau Dewata",
-            "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+            "embed_url": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "desc": "Dokumentasi sinematik kegiatan KKL Informatika UPGRIS 2026."
         }
     ],
     "feedback": [
@@ -463,5 +464,27 @@
             "date": "20 Agustus 2026",
             "message": "Website ini keren banget dokumentasinya, lengkap dari rundown jam ke jam sampai petanya. Kenangan seumur hidup kuliah di UPGRIS!"
         }
-    ]
+    ],
+    "developer": {
+        "name": "Muhamad Luthfi Abdullah",
+        "nickname": "Luthfi",
+        "role": "Lead Full-Stack Developer & UI/UX Engineer",
+        "nim": "Informatika UPGRIS",
+        "institution": "Universitas PGRI Semarang (UPGRIS)",
+        "bio": "Mahasiswa Program Studi Informatika Universitas PGRI Semarang yang berfokus pada arsitektur web modern, performa tinggi, antarmuka responsif multi-device, dan teknologi Jamstack.",
+        "photo": "assets/uploads/profiles/profile_1793046726_5e708eca.jpeg",
+        "github": "https://github.com/Luthfi1006",
+        "linkedin": "https://linkedin.com/in/",
+        "instagram": "https://instagram.com/",
+        "email": "luthfiabdullahmuhamad@gmail.com",
+        "skills": [
+            "JavaScript (ES6+)",
+            "PHP & REST API",
+            "Modern CSS3 & Glassmorphism",
+            "Jamstack & Zero-SQL Flat Engine",
+            "Leaflet.js GIS Mapping"
+        ],
+        "quote": "Membangun sistem bukan sekadar merangkai baris kode, melainkan seni menghadirkan solusi digital yang elegan, intuitif, dan bermanfaat nyata.",
+        "show_on_home": true
+    }
 }
