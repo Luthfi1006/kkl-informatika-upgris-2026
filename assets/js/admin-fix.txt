@@ -1,0 +1,39 @@
+﻿    // Login - FIXED: Always allow default PIN as fallback
+    document.getElementById("loginForm")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const pinInput = document.getElementById("pinInput").value.trim();
+      const defaultPin = "upgris2026";
+      const dataPin = data?.settings?.admin_pin;
+      
+      console.log("🔍 Login attempt:");
+      console.log("  - Input PIN:", pinInput);
+      console.log("  - Data PIN:", dataPin);
+      console.log("  - Default PIN:", defaultPin);
+      
+      // Accept: input PIN matches data PIN OR matches default PIN
+      if (pinInput === dataPin || pinInput === defaultPin) {
+        console.log("✅ Login SUCCESS");
+        sessionStorage.setItem("kkl_admin_pin", pinInput);
+        showAdmin();
+      } else {
+        console.log("❌ Login FAILED - PIN incorrect");
+        alert("❌ PIN salah!\n\nDefault PIN: upgris2026");
+        document.getElementById("pinInput").value = "";
+        document.getElementById("pinInput").focus();
+      }
+    });
+
+    // Logout
+    document.getElementById("btnLogout")?.addEventListener("click", () => {
+      sessionStorage.removeItem("kkl_admin_pin");
+      document.getElementById("adminScreen").style.display = "none";
+      document.getElementById("loginScreen").style.display = "block";
+      document.getElementById("pinInput").value = "";
+      console.log("🚪 Logged out");
+    });
+  }
+
+  // Load Data
+  console.log("⏳ Loading data...");
+  loadData();
+})();
