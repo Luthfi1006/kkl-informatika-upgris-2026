@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    KKL Informatika UPGRIS 2026 - Master JavaScript Controller
    Zero-SQL & Client-Side Interactive Engine
    ========================================================================== */
@@ -17,8 +17,8 @@
       site_title: "KKL Informatika UPGRIS 2026",
       tagline: "Satu Perjalanan. Seribu Kenangan.",
       subtext: "Portal resmi dokumentasi Kuliah Kerja Lapangan Program Studi Informatika Universitas PGRI Semarang 2026 ke Pulau Dewata Bali.",
-      dates: "18—22 Agustus 2026",
-      destination_title: "Semarang → Bali",
+      dates: "18â€”22 Agustus 2026",
+      destination_title: "Semarang â†’ Bali",
       countdown_start: "2026-08-18T06:00:00+07:00",
       logo: "assets/uploads/branding/logo_1793049567_7af0ed47.png"
     },
@@ -83,7 +83,7 @@
       const diff = targetDate - now;
 
       if (diff > 0) {
-        if (cdLabel) cdLabel.textContent = "⏳ Hitung Mundur Keberangkatan:";
+        if (cdLabel) cdLabel.textContent = "â³ Hitung Mundur Keberangkatan:";
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -94,7 +94,7 @@
         cdMinutes.textContent = String(m).padStart(2, '0');
         cdSeconds.textContent = String(s).padStart(2, '0');
       } else {
-        if (cdLabel) cdLabel.textContent = "✨ Jejak Kenangan Terukir Sejak:";
+        if (cdLabel) cdLabel.textContent = "âœ¨ Jejak Kenangan Terukir Sejak:";
         const passed = Math.abs(diff);
         const d = Math.floor(passed / (1000 * 60 * 60 * 24));
         const h = Math.floor((passed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -114,14 +114,14 @@
   // Category tags helper
   function getCategoryMeta(cat) {
     const map = {
-      industry: { label: '🏢 Kunjungan Industri', cls: 'cat-industry' },
-      culture:  { label: '🎭 Seni & Budaya', cls: 'cat-culture' },
-      tourism:  { label: '🏖️ Wisata & Belanja', cls: 'cat-tourism' },
-      food:     { label: '🍽️ Kuliner & Makan', cls: 'cat-food' },
-      hotel:    { label: '🏨 Akomodasi Hotel', cls: 'cat-hotel' },
-      travel:   { label: '🚌 Rute Perjalanan', cls: 'cat-travel' }
+      industry: { label: 'ðŸ¢ Kunjungan Industri', cls: 'cat-industry' },
+      culture:  { label: 'ðŸŽ­ Seni & Budaya', cls: 'cat-culture' },
+      tourism:  { label: 'ðŸ–ï¸ Wisata & Belanja', cls: 'cat-tourism' },
+      food:     { label: 'ðŸ½ï¸ Kuliner & Makan', cls: 'cat-food' },
+      hotel:    { label: 'ðŸ¨ Akomodasi Hotel', cls: 'cat-hotel' },
+      travel:   { label: 'ðŸšŒ Rute Perjalanan', cls: 'cat-travel' }
     };
-    return map[cat] || { label: '📍 Agenda', cls: 'cat-travel' };
+    return map[cat] || { label: 'ðŸ“ Agenda', cls: 'cat-travel' };
   }
 
   // Render Itinerary per Day
@@ -132,7 +132,7 @@
 
     const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const dayTitles = {
-      1: { title: "Semarang → Menyeberang ke Pulau Dewata", date: "Selasa, 18 Agustus 2026" },
+      1: { title: "Semarang â†’ Menyeberang ke Pulau Dewata", date: "Selasa, 18 Agustus 2026" },
       2: { title: "Penyeberangan, Bedugul & Devdan Show", date: "Rabu, 19 Agustus 2026" },
       3: { title: "Balai Diklat Industri, Pandawa & Makrab Jimbaran", date: "Kamis, 20 Agustus 2026" },
       4: { title: "Belanja Oleh-Oleh & Perjalanan Pulang ke Jawa", date: "Jumat, 21 Agustus 2026" },
@@ -185,7 +185,7 @@
                   <div>
                     <div class="timeline-title">${escapeHtml(item.name)}</div>
                     <p class="timeline-desc">${escapeHtml(item.desc || '')}</p>
-                    ${item.route ? `<small style="color:var(--text-light);font-size:12px;">📍 ${escapeHtml(item.route)}</small>` : ''}
+                    ${item.route ? `<small style="color:var(--text-light);font-size:12px;">ðŸ“ ${escapeHtml(item.route)}</small>` : ''}
                   </div>
                   <div>
                     <span class="cat-tag ${catMeta.cls}">${catMeta.label}</span>
@@ -222,7 +222,7 @@
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 18,
-      attribution: '© OpenStreetMap contributors'
+      attribution: 'Â© OpenStreetMap contributors'
     }).addTo(mapInstance);
 
     const points = [];
@@ -233,7 +233,7 @@
         const popupContent = `
           <div style="font-family:var(--font-sans);min-width:180px;">
             <strong style="color:var(--primary);font-size:14px;display:block;">${escapeHtml(d.name)}</strong>
-            <span style="font-size:12px;color:#d4a753;font-weight:700;">Hari ke-${d.day_no} • ${d.time || ''}</span>
+            <span style="font-size:12px;color:#d4a753;font-weight:700;">Hari ke-${d.day_no} â€¢ ${d.time || ''}</span>
             <p style="font-size:12px;color:#555;margin:4px 0 0;">${escapeHtml(d.desc || '')}</p>
           </div>
         `;
@@ -261,7 +261,7 @@
         <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy">
         <div class="gallery-info">
           <strong>${escapeHtml(item.title)}</strong>
-          <span>📍 ${escapeHtml(item.location || 'Pulau Bali')}</span>
+          <span>ðŸ“ ${escapeHtml(item.location || 'Pulau Bali')}</span>
         </div>
       </div>
     `).join('');
@@ -326,7 +326,7 @@
     }
 
     wall.innerHTML = allFeedback.map(fb => {
-      const stars = '★'.repeat(Math.min(5, Math.max(1, fb.rating || 5))) + '☆'.repeat(5 - Math.min(5, Math.max(1, fb.rating || 5)));
+      const stars = 'â˜…'.repeat(Math.min(5, Math.max(1, fb.rating || 5))) + 'â˜†'.repeat(5 - Math.min(5, Math.max(1, fb.rating || 5)));
       return `
         <div class="feedback-item">
           <div class="feedback-item-header">
@@ -422,7 +422,7 @@
         // Reset form & re-render feedback
         fbForm.reset();
         renderFeedback();
-        alert('✨ Terima kasih! Cerita dan kesan pesan Anda telah berhasil dibagikan.');
+        alert('âœ¨ Terima kasih! Cerita dan kesan pesan Anda telah berhasil dibagikan.');
       });
     }
 
@@ -455,3 +455,4 @@
     loadData();
   }
 })();
+
