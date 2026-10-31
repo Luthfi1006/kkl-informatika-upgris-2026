@@ -2,528 +2,93 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Studio Admin — KKL Informatika UPGRIS 2026</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/app.css">
-
+  <meta http-equiv="refresh" content="0; url=admin/login.php">
+  <script>window.location.href = "admin/login.php";</script>
+  <title>Redirecting to Admin Panel...</title>
   <style>
-    body { background: #eef4f0; }
-    .admin-wrapper { max-width: 1140px; margin: 30px auto; padding: 0 20px; }
-    .admin-card {
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-sm);
-      padding: 32px;
-      margin-bottom: 24px;
-    }
-    .admin-nav-tabs {
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       display: flex;
-      gap: 10px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .admin-nav-tab {
-      padding: 10px 18px;
-      border-radius: var(--radius-full);
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
-      font-weight: 700;
-      font-size: 13.5px;
-      cursor: pointer;
-      color: var(--text-main);
-      transition: all .2s;
-    }
-    .admin-nav-tab.active {
-      background: var(--primary);
-      color: #ffffff;
-      border-color: var(--primary);
-    }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; animation: fadeIn 0.2s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-
-    .item-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 18px;
-      border: 1px solid var(--border-light);
-      border-radius: var(--radius-sm);
-      margin-bottom: 10px;
-      background: #fbfdfc;
-    }
-    .item-row:hover { background: #ffffff; border-color: var(--border); }
-    .btn-danger-sm {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
-      border-radius: var(--radius-full);
-      padding: 6px 14px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all .15s;
-    }
-    .btn-danger-sm:hover { background: #fca5a5; }
-    .btn-edit-sm {
-      background: #dbeafe;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-      border-radius: var(--radius-full);
-      padding: 6px 14px;
-      font-size: 12.5px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-right: 8px;
-      transition: all .15s;
-    }
-    .btn-edit-sm:hover { background: #93c5fd; }
-    .badge-pin {
-      background: #fef3c7;
-      color: #92400e;
-      border: 1px solid #fde68a;
-      padding: 4px 10px;
-      border-radius: var(--radius-full);
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .login-box {
-      max-width: 440px;
-      margin: 80px auto;
-      background: #ffffff;
-      border-radius: var(--radius-lg);
-      padding: 36px;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-md);
-      text-align: center;
-    }
-    .form-group { margin-bottom: 18px; text-align: left; }
-    .form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 13.5px; }
-    .form-control {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 14px;
-      font-family: inherit;
-      transition: border-color .15s, box-shadow .15s;
-      box-sizing: border-box;
-    }
-    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(16,128,88,0.15); }
-    textarea.form-control { min-height: 100px; resize: vertical; }
-    .form-row { display: flex; gap: 16px; flex-wrap: wrap; }
-    .form-row .form-group { flex: 1; min-width: 200px; }
-
-    /* Modal Styles */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
       align-items: center;
       justify-content: center;
-      z-index: 1000;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
       padding: 20px;
     }
-    .modal-overlay.active { display: flex; animation: fadeIn 0.2s ease; }
-    .modal {
-      background: #fff;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-xl);
-      max-width: 600px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      animation: slideUp 0.25s ease;
+    .redirect-card {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 480px;
     }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-    }
-    .modal-title { font-size: 18px; font-weight: 700; margin: 0; }
-    .modal-close {
-      background: none;
-      border: none;
+    .redirect-card h1 {
+      margin: 0 0 15px;
+      color: #333;
       font-size: 24px;
-      cursor: pointer;
-      color: var(--text-muted);
-      line-height: 1;
-      padding: 4px;
     }
-    .modal-close:hover { color: var(--text-main); }
-    .modal-body { padding: 24px; }
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      padding: 16px 24px;
-      border-top: 1px solid var(--border);
+    .redirect-card p {
+      margin: 0 0 25px;
+      color: #666;
+      line-height: 1.6;
     }
-    .btn { padding: 10px 20px; border-radius: var(--radius-sm); font-weight: 700; font-size: 13.5px; cursor: pointer; border: 1px solid transparent; transition: all .15s; }
-    .btn-primary { background: var(--primary); color: #fff; }
-    .btn-primary:hover { filter: brightness(1.05); }
-    .btn-ghost { background: transparent; color: var(--text-main); border-color: var(--border); }
-    .btn-ghost:hover { background: var(--bg-soft); }
-    .btn-danger { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
-    .btn-danger:hover { background: #fca5a5; }
-    .btn-gold { background: var(--gold); color: #fff; border-color: var(--gold); }
-    .btn-gold:hover { filter: brightness(1.05); }
-
-    .preview-img { max-width: 100px; max-height: 100px; border-radius: var(--radius-sm); border: 1px solid var(--border); object-fit: cover; }
-    .video-preview { 
-      width: 100%; 
-      aspect-ratio: 16/9; 
-      border-radius: var(--radius-sm); 
-      border: 1px solid var(--border);
-      background: #f5f5f5;
+    .redirect-card .notice {
+      background: #fef3c7;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.5;
     }
-    .sort-handle { cursor: grab; color: var(--text-muted); font-size: 18px; margin-right: 12px; }
-    .sort-handle:active { cursor: grabbing; }
-
-    .video-link-input { font-family: monospace; font-size: 13px; }
-    .status-badge { 
-      display: inline-block; 
-      padding: 2px 8px; 
-      border-radius: var(--radius-full); 
-      font-size: 11px; 
-      font-weight: 700; 
-      text-transform: uppercase; 
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: #667eea;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
     }
-    .status-published { background: #dcfce7; color: #166534; }
-    .status-draft { background: #fef3c7; color: #92400e; }
-
-    @media (max-width: 768px) {
-      .admin-card { padding: 20px; }
-      .modal { margin: 10px; max-height: calc(100vh - 20px); }
-      .form-row { flex-direction: column; gap: 0; }
+    .btn:hover {
+      background: #5568d3;
+    }
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
-
-  <!-- Screen 1: Simple PIN Login -->
-  <div id="loginScreen" class="login-box">
-    <div style="font-size: 38px; margin-bottom: 12px;">🔐</div>
-    <h2>Studio Admin KKL</h2>
-    <p style="font-size: 14px; margin-bottom: 24px;">Pengelolaan konten mandiri tanpa database SQL. Masukkan PIN untuk mengakses.</p>
+  <div class="redirect-card">
+    <h1>🔄 Redirecting to Admin Panel</h1>
+    <div class="spinner"></div>
+    <p>Anda akan diarahkan ke <strong>Admin Dashboard</strong> yang terintegrasi dengan database...</p>
     
-    <form id="loginForm">
-      <div class="form-group" style="text-align:left;">
-        <label for="pinInput">PIN Masuk Admin</label>
-        <input type="password" id="pinInput" class="form-control" placeholder="Default: upgris2026" required autocomplete="current-password" autofocus>
-      </div>
-      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:10px;">Masuk ke Studio</button>
-      <p style="font-size:12px;color:var(--text-light);margin-top:14px;">PIN bawaan: <strong>upgris2026</strong> (Bisa diganti di dalam)</p>
-      <div style="margin-top: 16px;">
-        <a href="index.html" style="font-size:13px;color:var(--primary);font-weight:700;">← Kembali ke Website</a>
-      </div>
-    </form>
-  </div>
-
-  <!-- Screen 2: Dashboard Panel -->
-  <div id="adminScreen" class="admin-wrapper" style="display:none;">
+    <div class="notice">
+      <strong>⚠️ Important Notice:</strong><br>
+      <code>admin.html</code> telah diganti dengan <code>admin/dashboard.php</code> yang sudah terintegrasi penuh dengan database MySQL. Semua perubahan akan langsung tersimpan dan muncul di website utama.
+    </div>
     
-    <!-- Top Action Bar -->
-    <div class="admin-card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
-      <div>
-        <h2 style="margin:0;font-size:26px;">Studio Admin KKL 2026</h2>
-        <span class="badge-pin">Status: Zero-SQL Mode Aktif</span>
-      </div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn btn-gold" id="btnSaveData">💾 Simpan Perubahan</button>
-        <button class="btn btn-ghost" id="btnDownloadJson">📥 Unduh JSON</button>
-        <a class="btn btn-ghost" href="index.html" target="_blank">Lihat Web →</a>
-        <button class="btn btn-ghost" id="btnLogout" style="color:#b91c1c;">Keluar</button>
-      </div>
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="admin-card">
-      <div class="admin-nav-tabs" id="adminTabs">
-        <button class="admin-nav-tab active" data-tab="tabSettings">⚙️ Pengaturan Web</button>
-        <button class="admin-nav-tab" data-tab="tabDestinations">🗓️ Agenda & Destinasi (5 Hari)</button>
-        <button class="admin-nav-tab" data-tab="tabGallery">🖼️ Galeri Foto</button>
-        <button class="admin-nav-tab" data-tab="tabProfiles">👥 Profil Mahasiswa</button>
-        <button class="admin-nav-tab" data-tab="tabVideos">🎬 Video YouTube</button>
-        <button class="admin-nav-tab" data-tab="tabFeedback">💬 Buku Tamu / Feedback</button>
-      </div>
-
-      <!-- TAB: Pengaturan Web -->
-      <div id="tabSettings" class="tab-panel active">
-        <h3 style="margin-top:0;">Informasi Umum Website</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="setSiteTitle">Judul Website</label>
-            <input type="text" id="setSiteTitle" class="form-control" placeholder="KKL Informatika UPGRIS 2026">
-          </div>
-          <div class="form-group">
-            <label for="setTagline">Tagline</label>
-            <input type="text" id="setTagline" class="form-control" placeholder="Satu Perjalanan. Seribu Kenangan.">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="setDates">Tanggal KKL</label>
-            <input type="text" id="setDates" class="form-control" placeholder="18–22 Agustus 2026">
-          </div>
-          <div class="form-group">
-            <label for="setSubtext">Sub-text / Deskripsi Singkat</label>
-            <input type="text" id="setSubtext" class="form-control" placeholder="Portal resmi dokumentasi KKL...">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="setDestTitle">Judul Destinasi (untuk peta & header)</label>
-          <input type="text" id="setDestTitle" class="form-control" placeholder="Semarang → Bali">
-        </div>
-        <div class="form-group">
-          <label for="setCountdownStart">Mulai Hitung Mundur (ISO datetime)</label>
-          <input type="datetime-local" id="setCountdownStart" class="form-control">
-        </div>
-        <div class="form-group">
-          <label for="setLogo">Logo Website (path relatif dari root)</label>
-          <input type="text" id="setLogo" class="form-control" placeholder="assets/uploads/branding/logo_xxx.png">
-        </div>
-
-        <hr style="margin: 24px 0; border-color: var(--border);">
-        <h3>Keamanan Admin</h3>
-        <div class="form-group">
-          <label for="setAdminPin">PIN Admin Baru</label>
-          <input type="password" id="setAdminPin" class="form-control" placeholder="Kosongkan untuk tidak mengubah">
-          <small style="color: var(--text-muted);">Minimal 4 karakter. Simpan dengan aman!</small>
-        </div>
-      </div>
-
-      <!-- TAB: Agenda & Destinasi -->
-      <div id="tabDestinations" class="tab-panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <h3 style="margin:0;">Daftar Agenda 5 Hari KKL</h3>
-          <button class="btn btn-primary" id="btnAddDestination">+ Tambah Agenda Baru</button>
-        </div>
-        <div id="destAdminList"></div>
-      </div>
-
-      <!-- TAB: Galeri Foto -->
-      <div id="tabGallery" class="tab-panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <h3 style="margin:0;">Galeri Foto Dokumentasi</h3>
-          <button class="btn btn-primary" id="btnAddGallery">+ Tambah Foto</button>
-        </div>
-        <div id="galAdminList"></div>
-        <div id="addPhotoBox" style="display:none;margin-top:16px;padding:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--radius-sm);">
-          <h4 style="margin-top:0;">Tambah Foto Baru</h4>
-          <div class="form-group">
-            <label>Judul Foto</label>
-            <input type="text" id="galTitle" class="form-control" placeholder="Contoh: Kemegahan Pura Ulun Danu">
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Kategori</label>
-              <select id="galCategory" class="form-control">
-                <option value="wisata">🏞️ Wisata</option>
-                <option value="budaya">🎭 Budaya</option>
-                <option value="industri">🏭 Industri</option>
-                <option value="kebersamaan">🤝 Kebersamaan</option>
-                <option value="kuliner">🍽️ Kuliner</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Lokasi</label>
-              <input type="text" id="galLocation" class="form-control" placeholder="Bali, Indonesia">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>URL Gambar (Unsplash / CDN / relatif)</label>
-            <input type="text" id="galImage" class="form-control" placeholder="https://images.unsplash.com/... atau assets/uploads/gallery/foto.jpg">
-          </div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-primary" id="btnSaveGallery">Simpan Foto</button>
-            <button class="btn btn-ghost" id="btnCancelGallery">Batal</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB: Profil Mahasiswa -->
-      <div id="tabProfiles" class="tab-panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <h3 style="margin:0;">Profil Tim Mahasiswa</h3>
-          <button class="btn btn-primary" id="btnAddProfile">+ Tambah Profil</button>
-        </div>
-        <div id="profAdminList"></div>
-      </div>
-
-      <!-- TAB: Video YouTube -->
-      <div id="tabVideos" class="tab-panel">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
-          <h3 style="margin:0;">Video YouTube Dokumentasi</h3>
-          <button class="btn btn-primary" id="btnAddVideo">+ Tambah Video</button>
-        </div>
-        <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;">Masukkan URL YouTube (contoh: https://youtube.com/watch?v=xxx atau https://youtu.be/xxx).</p>
-        <div id="vidAdminList"></div>
-        <div id="addVideoBox" style="display:none;margin-top:16px;padding:16px;background:#fef3c7;border:1px solid #fde68a;border-radius:var(--radius-sm);">
-          <h4 style="margin-top:0;">Tambah / Edit Video YouTube</h4>
-          <div class="form-group">
-            <label for="vidTitle">Judul Video</label>
-            <input type="text" id="vidTitle" class="form-control" placeholder="Aftermovie KKL Informatika UPGRIS 2026">
-          </div>
-          <div class="form-group">
-            <label for="vidUrl">URL YouTube</label>
-            <input type="text" id="vidUrl" class="form-control video-link-input" placeholder="https://youtube.com/watch?v=dQw4w9WgXcQ">
-          </div>
-          <div class="form-group">
-            <label for="vidDesc">Deskripsi Singkat</label>
-            <textarea id="vidDesc" class="form-control" placeholder="Dokumentasi sinematik kegiatan KKL..."></textarea>
-          </div>
-          <div class="form-group" id="vidPreviewBox" style="display:none;">
-            <label>Pratinjau Embed</label>
-            <iframe id="vidPreview" class="video-preview" src="" frameborder="0" allowfullscreen></iframe>
-          </div>
-          <div style="display:flex;gap:10px;">
-            <button class="btn btn-primary" id="btnSaveVideo">Simpan Video</button>
-            <button class="btn btn-ghost" id="btnCancelVideo">Batal</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB: Buku Tamu / Feedback -->
-      <div id="tabFeedback" class="tab-panel">
-        <h3 style="margin-top:0;">Moderasi Buku Tamu</h3>
-        <p style="color:var(--text-muted);font-size:13px;margin-bottom:16px;">Komentar dari pengunjung (tersimpan di localStorage browser + data JSON). Hapus yang tidak pantas.</p>
-        <div id="fbAdminList"></div>
-      </div>
-    </div>
+    <p>Jika tidak dialihkan otomatis, klik tombol di bawah:</p>
+    <a href="admin/login.php" class="btn">→ Go to Admin Login</a>
+    
+    <p style="font-size: 12px; color: #999; margin-top: 20px;">
+      Default credentials: <code>admin</code> / (your password)
+    </p>
   </div>
-
-  <!-- MODAL: Edit Destinasi -->
-  <div id="modalDestination" class="modal-overlay">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="destModalTitle">Tambah Agenda Baru</h3>
-        <button class="modal-close" id="closeDestModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="destId">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="destDay">Hari Ke-*</label>
-            <select id="destDay" class="form-control">
-              <option value="1">Hari 1</option>
-              <option value="2">Hari 2</option>
-              <option value="3">Hari 3</option>
-              <option value="4">Hari 4</option>
-              <option value="5">Hari 5</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="destCategory">Kategori</label>
-            <select id="destCategory" class="form-control">
-              <option value="travel">🚌 Perjalanan / Rute</option>
-              <option value="industry">🏭 Kunjungan Industri</option>
-              <option value="culture">🎭 Seni & Budaya</option>
-              <option value="food">🍽️ Kuliner & Makan</option>
-              <option value="hotel">🏨 Akomodasi & Transit</option>
-              <option value="tourism">🏞️ Wisata & Belanja</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="destName">Nama Agenda *</label>
-          <input type="text" id="destName" class="form-control" placeholder="Contoh: Kunjungan Industri PT Victoria Care">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="destTime">Waktu</label>
-            <input type="text" id="destTime" class="form-control" placeholder="08.00 – 09.30 WIB">
-          </div>
-          <div class="form-group">
-            <label for="destRoute">Rute / Lokasi</label>
-            <input type="text" id="destRoute" class="form-control" placeholder="Kawasan Industri Candi, Semarang">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="destLat">Latitude</label>
-            <input type="number" step="any" id="destLat" class="form-control" placeholder="-6.9858">
-          </div>
-          <div class="form-group">
-            <label for="destLng">Longitude</label>
-            <input type="number" step="any" id="destLng" class="form-control" placeholder="110.4357">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="destDesc">Deskripsi / Catatan</label>
-          <textarea id="destDesc" class="form-control" placeholder="Detail agenda..."></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" id="btnCancelDest">Batal</button>
-        <button class="btn btn-danger" id="btnDeleteDest" style="display:none;">Hapus</button>
-        <button class="btn btn-primary" id="btnSaveDest">Simpan</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- MODAL: Edit Profil Mahasiswa -->
-  <div id="modalProfile" class="modal-overlay">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="profModalTitle">Tambah Profil Mahasiswa</h3>
-        <button class="modal-close" id="closeProfModal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="profId">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="profName">Nama Lengkap *</label>
-            <input type="text" id="profName" class="form-control" placeholder="Muhamad Luthfi Abdullah">
-          </div>
-          <div class="form-group">
-            <label for="profRole">Peran / Role *</label>
-            <input type="text" id="profRole" class="form-control" placeholder="Lead Developer & System Architect">
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="profBio">Bio / Deskripsi Singkat</label>
-          <textarea id="profBio" class="form-control" placeholder="Pengembang Utama Web Portal KKL..."></textarea>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="profPhoto">URL Foto Profil</label>
-            <input type="text" id="profPhoto" class="form-control" placeholder="assets/uploads/profiles/foto.jpg atau URL CDN">
-          </div>
-          <div class="form-group">
-            <label for="profSort">Urutan Tampil</label>
-            <input type="number" id="profSort" class="form-control" min="1" value="1">
-          </div>
-        </div>
-        <div class="form-group" id="profPreviewBox" style="display:none;">
-          <label>Pratinjau Foto</label>
-          <img id="profPreview" class="preview-img" src="" alt="Preview">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-ghost" id="btnCancelProf">Batal</button>
-        <button class="btn btn-danger" id="btnDeleteProf" style="display:none;">Hapus</button>
-        <button class="btn btn-primary" id="btnSaveProf">Simpan</button>
-      </div>
-    </div>
-  </div>
-
-  
-  <!-- Load Supabase Config & Migration Tools -->
-  <script src="assets/js/supabase-config.js"></script>
-  <script src="assets/js/admin.js"></script>
 </body>
 </html>
-
-
-
