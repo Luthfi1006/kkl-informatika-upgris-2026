@@ -1,7 +1,9 @@
 ﻿/* ==========================================================================
    KKL Informatika UPGRIS 2026 - Master JavaScript Controller
-   Zero-SQL & Client-Side Interactive Engine
+   Supabase API Integration Version
    ========================================================================== */
+
+import { api } from './api.js';
 
 (function () {
   'use strict';
@@ -11,14 +13,14 @@
   let activeGalCat = 'all';
   let mapInstance = null;
 
-  // Fallback initial data in case fetch is blocked by strict local browser file:// policy
+  // Fallback initial data in case API fails
   const fallbackData = {
     settings: {
       site_title: "KKL Informatika UPGRIS 2026",
       tagline: "Satu Perjalanan. Seribu Kenangan.",
       subtext: "Portal resmi dokumentasi Kuliah Kerja Lapangan Program Studi Informatika Universitas PGRI Semarang 2026 ke Pulau Dewata Bali.",
-      dates: "18â€”22 Agustus 2026",
-      destination_title: "Semarang â†’ Bali",
+      dates: "18–22 Agustus 2026",
+      destination_title: "Semarang → Bali",
       countdown_start: "2026-08-18T06:00:00+07:00",
       logo: "assets/uploads/branding/logo_1793049567_7af0ed47.png"
     },
@@ -29,16 +31,43 @@
     feedback: []
   };
 
-  // 1. Fetch JSON Data
+  // 1. Fetch Data from Supabase API
   async function loadData() {
     try {
-      const res = await fetch('./data/kkl_data.json?v=' + Date.now());
-      if (!res.ok) throw new Error("HTTP error " + res.status);
-      appData = await res.json();
+      console.log('Loading data from Supabase API...');
+      
+      // Fetch all data in parallel
+      const [profiles, destinations, gallery, videos, feedback, settings] = await Promise.all([
+        api.getProfiles(),
+        api.getDestinations(),
+        api.getGallery(),
+        api.getVideos(),
+        api.getFeedback(),
+        api.getSettings()
+      ]);
+
+      appData = {
+        settings: { ...fallbackData.settings, ...settings.data },
+        profiles: profiles.data || [],
+        destinations: destinations.data || [],
+        gallery: gallery.data || [],
+        videos: videos.data || [],
+        feedback: feedback.data || []
+      };
+
+      console.log('Data loaded successfully:', {
+        profiles: appData.profiles.length,
+        destinations: appData.destinations.length,
+        gallery: appData.gallery.length,
+        videos: appData.videos.length,
+        feedback: appData.feedback.length
+      });
+
     } catch (err) {
-      console.warn("Notice: Loading from local fallback data due to:", err);
+      console.warn('API failed, using fallback data:', err);
       appData = fallbackData;
     }
+    
     initApp();
   }
 
@@ -83,7 +112,7 @@
       const diff = targetDate - now;
 
       if (diff > 0) {
-        if (cdLabel) cdLabel.textContent = "â³ Hitung Mundur Keberangkatan:";
+        if (cdLabel) cdLabel.textContent = "⏳ Hitung Mundur Keberangkatan:";
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -94,7 +123,7 @@
         cdMinutes.textContent = String(m).padStart(2, '0');
         cdSeconds.textContent = String(s).padStart(2, '0');
       } else {
-        if (cdLabel) cdLabel.textContent = "âœ¨ Jejak Kenangan Terukir Sejak:";
+        if (cdLabel) cdLabel.textContent = "✨ Jejak Kenangan Terukir Sejak:";
         const passed = Math.abs(diff);
         const d = Math.floor(passed / (1000 * 60 * 60 * 24));
         const h = Math.floor((passed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -107,352 +136,250 @@
         cdSeconds.textContent = String(s).padStart(2, '0');
       }
     }
+
     update();
     setInterval(update, 1000);
   }
 
-  // Category tags helper
-  function getCategoryMeta(cat) {
-    const map = {
-      industry: { label: 'ðŸ¢ Kunjungan Industri', cls: 'cat-industry' },
-      culture:  { label: 'ðŸŽ­ Seni & Budaya', cls: 'cat-culture' },
-      tourism:  { label: 'ðŸ–ï¸ Wisata & Belanja', cls: 'cat-tourism' },
-      food:     { label: 'ðŸ½ï¸ Kuliner & Makan', cls: 'cat-food' },
-      hotel:    { label: 'ðŸ¨ Akomodasi Hotel', cls: 'cat-hotel' },
-      travel:   { label: 'ðŸšŒ Rute Perjalanan', cls: 'cat-travel' }
-    };
-    return map[cat] || { label: 'ðŸ“ Agenda', cls: 'cat-travel' };
-  }
-
-  // Render Itinerary per Day
+  // Itinerary Rendering
   function renderItinerary() {
-    const container = document.getElementById('itineraryList');
-    const searchInput = document.getElementById('itinerarySearch');
+    const container = document.getElementById('itineraryContent');
     if (!container) return;
 
-    const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-    const dayTitles = {
-      1: { title: "Semarang â†’ Menyeberang ke Pulau Dewata", date: "Selasa, 18 Agustus 2026" },
-      2: { title: "Penyeberangan, Bedugul & Devdan Show", date: "Rabu, 19 Agustus 2026" },
-      3: { title: "Balai Diklat Industri, Pandawa & Makrab Jimbaran", date: "Kamis, 20 Agustus 2026" },
-      4: { title: "Belanja Oleh-Oleh & Perjalanan Pulang ke Jawa", date: "Jumat, 21 Agustus 2026" },
-      5: { title: "Tiba Kembali di Kampus Tercinta UPGRIS", date: "Sabtu, 22 Agustus 2026" }
-    };
-
-    // Group items by day
-    const grouped = { 1: [], 2: [], 3: [], 4: [], 5: [] };
+    // Group by day
+    const byDay = {};
     (appData.destinations || []).forEach(item => {
       const day = item.day_no || 1;
-      if (!grouped[day]) grouped[day] = [];
-
-      // Search matching
-      const matchesSearch = !query || 
-        (item.name && item.name.toLowerCase().includes(query)) ||
-        (item.desc && item.desc.toLowerCase().includes(query)) ||
-        (item.route && item.route.toLowerCase().includes(query));
-
-      if (matchesSearch) {
-        grouped[day].push(item);
-      }
+      if (!byDay[day]) byDay[day] = [];
+      byDay[day].push(item);
     });
 
+    const dayLabels = {
+      1: 'Hari 1: Semarang → Bali',
+      2: 'Hari 2: Penyeberangan & Eksplorasi Bali',
+      3: 'Hari 3: Industri, Budaya & Pantai',
+      4: 'Hari 4: Bali → Pulang ke Semarang',
+      5: 'Hari 5: Tiba di UPGRIS'
+    };
+
     let html = '';
-    let totalMatches = 0;
-
     for (let day = 1; day <= 5; day++) {
-      if (activeDay !== 'all' && parseInt(activeDay) !== day) continue;
-      const items = grouped[day] || [];
-      if (items.length === 0 && query) continue;
-
-      totalMatches += items.length;
-      const meta = dayTitles[day] || { title: `Hari ${day}`, date: "" };
+      const items = byDay[day] || [];
+      if (items.length === 0) continue;
 
       html += `
-        <div class="day-card" data-day="${day}">
-          <div class="day-card-header">
-            <div>
-              <span class="day-badge">HARI KE-${day}</span>
-              <h3 style="margin-top:6px;">${meta.title}</h3>
-            </div>
-            <div class="day-date">${meta.date}</div>
-          </div>
-          <div class="timeline-items">
-            ${items.map(item => {
-              const catMeta = getCategoryMeta(item.category);
-              return `
-                <div class="timeline-row">
-                  <div class="timeline-time">${item.time || 'Waktu Fleksibel'}</div>
-                  <div>
-                    <div class="timeline-title">${escapeHtml(item.name)}</div>
-                    <p class="timeline-desc">${escapeHtml(item.desc || '')}</p>
-                    ${item.route ? `<small style="color:var(--text-light);font-size:12px;">ðŸ“ ${escapeHtml(item.route)}</small>` : ''}
-                  </div>
-                  <div>
-                    <span class="cat-tag ${catMeta.cls}">${catMeta.label}</span>
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
+        <div class="itinerary-day" data-day="${day}">
+          <h3 class="day-title">${dayLabels[day] || `Hari ${day}`}</h3>
+          <div class="timeline">
       `;
+
+      items.forEach((item, index) => {
+        const time = item.visit_date ? new Date(item.visit_date).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) : '';
+        const category = getCategoryIcon(item.route || item.name);
+        
+        html += `
+          <div class="timeline-item">
+            <div class="timeline-marker">${category}</div>
+            <div class="timeline-content">
+              <h4>${escapeHtml(item.name)}</h4>
+              ${time ? `<span class="timeline-time">${time}</span>` : ''}
+              ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+              ${item.route ? `<span class="timeline-route">${escapeHtml(item.route)}</span>` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      html += '</div></div>';
     }
 
-    if (totalMatches === 0 && query) {
-      html = `<div style="text-align:center;padding:50px;background:#ffffff;border-radius:16px;border:1px solid var(--border);">
-        <p style="font-size:18px;font-weight:700;">Tidak ditemukan agenda untuk pencarian "${escapeHtml(query)}"</p>
-        <p class="muted">Coba ketik kata kunci lain seperti "Pandawa", "Kecak", atau "Victoria Care".</p>
-      </div>`;
-    }
-
-    container.innerHTML = html;
+    container.innerHTML = html || '<p class="empty">Belum ada jadwal.</p>';
   }
 
-  // Interactive Leaflet Map
+  // Gallery Rendering
+  function renderGallery() {
+    const container = document.getElementById('galleryGrid');
+    if (!container) return;
+
+    const items = appData.gallery || [];
+    
+    if (items.length === 0) {
+      container.innerHTML = '<p class="empty">Belum ada foto dokumentasi.</p>';
+      return;
+    }
+
+    container.innerHTML = items.map(item => `
+      <div class="gallery-item" data-id="${item.id}">
+        <img src="${escapeHtml(item.photo)}" alt="${escapeHtml(item.title)}" loading="lazy">
+        <div class="gallery-overlay">
+          <h4>${escapeHtml(item.title)}</h4>
+          <p>${escapeHtml(item.location || '')}</p>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Profiles Rendering
+  function renderProfiles() {
+    const container = document.getElementById('profilesGrid');
+    if (!container) return;
+
+    const items = appData.profiles || [];
+    
+    if (items.length === 0) {
+      container.innerHTML = '<p class="empty">Belum ada profil tim.</p>';
+      return;
+    }
+
+    container.innerHTML = items.map(item => `
+      <div class="profile-card">
+        <img src="${escapeHtml(item.photo || 'assets/img/profile-placeholder.svg')}" alt="${escapeHtml(item.name)}" loading="lazy">
+        <h4>${escapeHtml(item.name)}</h4>
+        <span class="profile-role">${escapeHtml(item.role || 'Mahasiswa Informatika')}</span>
+        ${item.bio ? `<p class="profile-bio">${escapeHtml(item.bio)}</p>` : ''}
+      </div>
+    `).join('');
+  }
+
+  // Videos Rendering
+  function renderVideos() {
+    const container = document.getElementById('videoGrid');
+    if (!container) return;
+
+    const items = appData.videos || [];
+    
+    if (items.length === 0) {
+      container.innerHTML = '<p class="empty">Belum ada video.</p>';
+      return;
+    }
+
+    container.innerHTML = items.map(item => `
+      <div class="video-card">
+        <div class="video-wrapper">
+          <iframe src="${escapeHtml(item.embed_url)}" 
+                  title="${escapeHtml(item.title)}" 
+                  allowfullscreen loading="lazy"></iframe>
+        </div>
+        <h4>${escapeHtml(item.title)}</h4>
+      </div>
+    `).join('');
+  }
+
+  // Feedback Rendering
+  function renderFeedback() {
+    const container = document.getElementById('feedbackWall');
+    if (!container) return;
+
+    const items = appData.feedback || [];
+    
+    if (items.length === 0) {
+      container.innerHTML = '<p class="empty">Belum ada cerita. Jadilah yang pertama!</p>';
+      return;
+    }
+
+    container.innerHTML = items.map(item => `
+      <div class="feedback-card">
+        <div class="feedback-header">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span class="feedback-rating">${'⭐'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</span>
+        </div>
+        <p>${escapeHtml(item.message)}</p>
+        <small class="feedback-date">${new Date(item.created_at).toLocaleDateString('id-ID', { 
+          day: 'numeric', month: 'long', year: 'numeric' 
+        })}</small>
+      </div>
+    `).join('');
+  }
+
+  // Map Initialization (Leaflet)
   function initMap() {
-    const mapContainer = document.getElementById('kklMap');
+    const mapContainer = document.getElementById('map');
     if (!mapContainer || typeof L === 'undefined') return;
 
     if (mapInstance) {
       mapInstance.remove();
     }
 
-    // Default center around Bali
-    mapInstance = L.map('kklMap').setView([-8.4095, 115.1889], 9);
+    mapInstance = L.map('map').setView([-8.3405, 115.0920], 10);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: 'Â© OpenStreetMap contributors'
+      attribution: '© OpenStreetMap contributors'
     }).addTo(mapInstance);
 
-    const points = [];
-    (appData.destinations || []).forEach(d => {
-      if (d.lat && d.lng) {
-        points.push([d.lat, d.lng]);
-        const catMeta = getCategoryMeta(d.category);
-        const popupContent = `
-          <div style="font-family:var(--font-sans);min-width:180px;">
-            <strong style="color:var(--primary);font-size:14px;display:block;">${escapeHtml(d.name)}</strong>
-            <span style="font-size:12px;color:#d4a753;font-weight:700;">Hari ke-${d.day_no} â€¢ ${d.time || ''}</span>
-            <p style="font-size:12px;color:#555;margin:4px 0 0;">${escapeHtml(d.desc || '')}</p>
-          </div>
-        `;
-        L.marker([d.lat, d.lng]).addTo(mapInstance).bindPopup(popupContent);
+    // Add markers for destinations
+    (appData.destinations || []).forEach(item => {
+      if (item.latitude && item.longitude) {
+        L.marker([item.latitude, item.longitude])
+          .addTo(mapInstance)
+          .bindPopup(`<b>${escapeHtml(item.name)}</b><br>${escapeHtml(item.description || '')}`);
       }
     });
-
-    if (points.length > 0) {
-      const bounds = L.latLngBounds(points);
-      mapInstance.fitBounds(bounds, { padding: [50, 50] });
-    }
-  }
-
-  // Render Gallery with Filter
-  function renderGallery() {
-    const container = document.getElementById('galleryGrid');
-    if (!container) return;
-
-    const items = (appData.gallery || []).filter(item => {
-      return activeGalCat === 'all' || item.category === activeGalCat;
-    });
-
-    container.innerHTML = items.map(item => `
-      <div class="gallery-card" data-img="${escapeHtml(item.image)}" data-title="${escapeHtml(item.title)}" data-loc="${escapeHtml(item.location || '')}">
-        <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy">
-        <div class="gallery-info">
-          <strong>${escapeHtml(item.title)}</strong>
-          <span>ðŸ“ ${escapeHtml(item.location || 'Pulau Bali')}</span>
-        </div>
-      </div>
-    `).join('');
-
-    // Attach Lightbox triggers
-    container.querySelectorAll('.gallery-card').forEach(card => {
-      card.addEventListener('click', () => {
-        openLightbox(card.dataset.img, card.dataset.title, card.dataset.loc);
-      });
-    });
-  }
-
-  // Lightbox functions
-  function openLightbox(imgSrc, title, loc) {
-    const lightbox = document.getElementById('galleryLightbox');
-    const img = document.getElementById('lightboxImg');
-    const cap = document.getElementById('lightboxCaption');
-    if (!lightbox || !img) return;
-
-    img.src = imgSrc;
-    if (cap) cap.innerHTML = `<strong>${title}</strong><br><small>${loc}</small>`;
-    lightbox.classList.add('active');
-  }
-
-  function closeLightbox() {
-    const lightbox = document.getElementById('galleryLightbox');
-    if (lightbox) lightbox.classList.remove('active');
-  }
-
-  // Render Profiles
-  function renderProfiles() {
-    const container = document.getElementById('profilesGrid');
-    if (!container) return;
-
-    const list = appData.profiles || [];
-    container.innerHTML = list.map(p => `
-      <div class="profile-card">
-        <img class="profile-avatar" src="${escapeHtml(p.photo || 'assets/img/profile-placeholder.svg')}" alt="${escapeHtml(p.name)}" onerror="this.src='assets/img/profile-placeholder.svg'">
-        <h4>${escapeHtml(p.name)}</h4>
-        <div class="profile-role">${escapeHtml(p.role || 'Mahasiswa Informatika')}</div>
-        <p class="profile-bio">${escapeHtml(p.bio || '')}</p>
-      </div>
-    `).join('');
-  }
-
-  // Render Feedback Wall (Pre-seeded + LocalStorage)
-  function renderFeedback() {
-    const wall = document.getElementById('feedbackWall');
-    if (!wall) return;
-
-    // Load custom feedbacks stored locally in browser
-    let localFeedbacks = [];
-    try {
-      localFeedbacks = JSON.parse(localStorage.getItem('kkl_user_feedbacks') || '[]');
-    } catch(e) {}
-
-    const allFeedback = [...localFeedbacks, ...(appData.feedback || [])];
-
-    if (allFeedback.length === 0) {
-      wall.innerHTML = '<p class="muted">Belum ada cerita yang dibagikan. Jadilah yang pertama!</p>';
-      return;
-    }
-
-    wall.innerHTML = allFeedback.map(fb => {
-      const stars = 'â˜…'.repeat(Math.min(5, Math.max(1, fb.rating || 5))) + 'â˜†'.repeat(5 - Math.min(5, Math.max(1, fb.rating || 5)));
-      return `
-        <div class="feedback-item">
-          <div class="feedback-item-header">
-            <span class="feedback-author">${escapeHtml(fb.name)}</span>
-            <span class="feedback-stars">${stars}</span>
-          </div>
-          <p class="feedback-msg">${escapeHtml(fb.message)}</p>
-          <span class="feedback-date">${escapeHtml(fb.date || 'Baru saja')}</span>
-        </div>
-      `;
-    }).join('');
   }
 
   // Event Listeners
   function setupEventListeners() {
-    // 1. Day Filter Tabs
-    document.querySelectorAll('.day-tab').forEach(tab => {
-      tab.addEventListener('click', function () {
-        document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        activeDay = this.dataset.day || 'all';
-        renderItinerary();
-      });
-    });
-
-    // 2. Itinerary Search
-    const searchInput = document.getElementById('itinerarySearch');
-    if (searchInput) {
-      searchInput.addEventListener('input', renderItinerary);
-    }
-
-    // 3. Print Itinerary Button
-    const printBtn = document.getElementById('btnPrintItinerary');
-    if (printBtn) {
-      printBtn.addEventListener('click', () => {
-        window.print();
-      });
-    }
-
-    // 4. Gallery Filter Buttons
-    document.querySelectorAll('.gal-filter-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.gal-filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        activeGalCat = this.dataset.cat || 'all';
-        renderGallery();
-      });
-    });
-
-    // 5. Lightbox close
-    const closeBtn = document.getElementById('lightboxClose');
-    const lightbox = document.getElementById('galleryLightbox');
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (lightbox) {
-      lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-    }
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
-    });
-
-    // 6. Feedback Form Submission (100% Zero SQL, Instant Client-Side Save)
-    const fbForm = document.getElementById('feedbackForm');
-    if (fbForm) {
-      fbForm.addEventListener('submit', function (e) {
+    // Feedback Form Submission
+    const form = document.getElementById('feedbackForm');
+    if (form) {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const nameInput = document.getElementById('fbName');
-        const ratingInput = document.getElementById('fbRating');
-        const msgInput = document.getElementById('fbMessage');
-
-        const newFb = {
-          id: Date.now(),
-          name: nameInput.value.trim(),
-          rating: parseInt(ratingInput.value) || 5,
-          message: msgInput.value.trim(),
-          date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
+        
+        const formData = new FormData(form);
+        const feedback = {
+          name: formData.get('name'),
+          rating: parseInt(formData.get('rating')),
+          message: formData.get('message')
         };
 
-        if (!newFb.name || !newFb.message) {
-          alert('Mohon lengkapi nama dan pesan cerita Anda.');
-          return;
-        }
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Mengirim...';
 
-        let localFeedbacks = [];
         try {
-          localFeedbacks = JSON.parse(localStorage.getItem('kkl_user_feedbacks') || '[]');
-        } catch(e) {}
-
-        localFeedbacks.unshift(newFb);
-        localStorage.setItem('kkl_user_feedbacks', JSON.stringify(localFeedbacks));
-
-        // Reset form & re-render feedback
-        fbForm.reset();
-        renderFeedback();
-        alert('âœ¨ Terima kasih! Cerita dan kesan pesan Anda telah berhasil dibagikan.');
+          await api.submitFeedback(feedback);
+          alert('Terima kasih! Ceritamu akan muncul setelah disetujui admin.');
+          form.reset();
+        } catch (err) {
+          alert('Gagal mengirim: ' + err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        }
       });
     }
 
-    // 7. Back to Top Button
-    const bttBtn = document.getElementById('btnBackToTop');
-    if (bttBtn) {
-      window.addEventListener('scroll', () => {
-        bttBtn.style.display = window.scrollY > 400 ? 'grid' : 'none';
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       });
-      bttBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
+    });
   }
 
-  function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+  // Utility: Escape HTML
+  function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
   }
 
-  // Load when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadData);
-  } else {
-    loadData();
+  // Utility: Get category icon
+  function getCategoryIcon(text) {
+    const t = (text || '').toLowerCase();
+    if (t.includes('industri') || t.includes('victoria') || t.includes('balai diklat')) return '🏭';
+    if (t.includes('makan') || t.includes('breakfast') || t.includes('dinner') || t.includes('resto')) return '🍽️';
+    if (t.includes('hotel') || t.includes('check-in') || t.includes('istirahat')) return '🏨';
+    if (t.includes('pantai') || t.includes('candi') || t.includes('wisata') || t.includes('belanja')) return '🏖️';
+    if (t.includes('kecak') || t.includes('devdan') || t.includes('budaya') || t.includes('tari')) return '🎭';
+    return '🚌';
   }
+
+  // Initialize
+  document.addEventListener('DOMContentLoaded', loadData);
 })();
-

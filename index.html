@@ -27,7 +27,7 @@
   <!-- Sticky Navbar -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.php">
+      <a class="brand" href="index.html">
         <img src="assets/uploads/branding/logo_1793049567_7af0ed47.png" alt="Logo UPGRIS" onerror="this.outerHTML='<span class=\'brand-fallback\'>U</span>'">
         <span>KKL Informatika <strong>UPGRIS</strong></span>
       </a>
@@ -247,7 +247,6 @@
           <h4>Studio</h4>
           <ul class="footer-links">
             <li><a href="admin/">⚙️ Pengelolaan Admin</a></li>
-            <li><a href="data/kkl_data.json" target="_blank">📂 File JSON Database</a></li>
             <li><a href="README.md" target="_blank">📚 Panduan Deploy</a></li>
           </ul>
         </div>
@@ -255,7 +254,7 @@
 
       <div class="footer-bottom">
         <div>© 2026 Program Studi Informatika Universitas PGRI Semarang. All rights reserved.</div>
-        <div>Built with Clean Zero-SQL Architecture.</div>
+        <div>Built with Supabase + Vercel.</div>
       </div>
     </div>
   </footer>
@@ -268,7 +267,7 @@
   <!-- Leaflet.js Interactive Map Script -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-  <!-- Master Interactive App Script -->
-  <script src="assets/js/app.js"></script>
+  <!-- Master Interactive App Script (ES Module) -->
+  <script type="module" src="assets/js/app.js"></script>
 </body>
 </html>
