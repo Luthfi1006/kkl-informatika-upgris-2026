@@ -3,13 +3,19 @@
 # Security & Performance Configuration
 ###############################################################
 
+# ENSURE PHP IS HANDLED CORRECTLY (Fix download issue)
+<FilesMatch "\.php$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+
 # Enable mod_rewrite
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
     
-    # HTTPS Enforcement
+    # HTTPS Enforcement (only if HTTPS available)
     RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
     
     # Block sensitive files
@@ -38,7 +44,7 @@ Options -Indexes
     RewriteRule ^\.secure/ - [F,L]
 </IfModule>
 
-# PHP Security Settings
+# PHP Security Settings (if mod_php available)
 <IfModule mod_php7.c>
     php_flag display_errors Off
     php_flag display_startup_errors Off
@@ -48,7 +54,21 @@ Options -Indexes
     php_value post_max_size 10M
     php_value max_execution_time 30
     php_value session.cookie_httponly 1
-    php_value session.cookie_secure 1
+    php_value session.cookie_secure 0
+    php_value session.use_strict_mode 1
+</IfModule>
+
+# PHP 8+ Settings
+<IfModule mod_php8.c>
+    php_flag display_errors Off
+    php_flag display_startup_errors Off
+    php_flag log_errors On
+    php_value error_log logs/php-error.log
+    php_value upload_max_filesize 5M
+    php_value post_max_size 10M
+    php_value max_execution_time 30
+    php_value session.cookie_httponly 1
+    php_value session.cookie_secure 0
     php_value session.use_strict_mode 1
 </IfModule>
 
@@ -59,7 +79,8 @@ Options -Indexes
     Header always set X-XSS-Protection "1; mode=block"
     Header always set Referrer-Policy "no-referrer-when-downgrade"
     Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    # HSTS only on HTTPS
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
     
     # Remove server info
     Header unset Server
@@ -68,6 +89,7 @@ Options -Indexes
 
 # MIME Type Configuration
 <IfModule mod_mime.c>
+    AddType application/x-httpd-php .php
     AddType application/javascript js
     AddType text/css css
     AddType image/webp webp
@@ -83,8 +105,6 @@ Options -Indexes
 # Browser Caching
 <IfModule mod_expires.c>
     ExpiresActive On
-    
-    # Images
     ExpiresByType image/jpeg "access plus 1 year"
     ExpiresByType image/jpg "access plus 1 year"
     ExpiresByType image/png "access plus 1 year"
@@ -92,20 +112,14 @@ Options -Indexes
     ExpiresByType image/webp "access plus 1 year"
     ExpiresByType image/svg+xml "access plus 1 year"
     ExpiresByType image/x-icon "access plus 1 year"
-    
-    # CSS & JavaScript
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType text/javascript "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType application/x-javascript "access plus 1 month"
-    
-    # Fonts
     ExpiresByType font/woff "access plus 1 year"
     ExpiresByType font/woff2 "access plus 1 year"
     ExpiresByType application/font-woff "access plus 1 year"
     ExpiresByType application/font-woff2 "access plus 1 year"
-    
-    # Default
     ExpiresDefault "access plus 2 days"
 </IfModule>
 
@@ -114,11 +128,6 @@ Options -Indexes
     Header unset ETag
 </IfModule>
 FileETag None
-
-# Limit Request Size (prevent DoS)
-<IfModule mod_reqtimeout.c>
-    RequestReadTimeout header=20-40,MinRate=500 body=20,MinRate=500
-</IfModule>
 
 # Block bad bots
 <IfModule mod_rewrite.c>
@@ -129,10 +138,6 @@ FileETag None
     RewriteCond %{ENV:LEGITIMATE_BOT} !1
     RewriteRule .* - [F,L]
 </IfModule>
-
-# Custom Error Pages (Optional)
-# ErrorDocument 404 /404.html
-# ErrorDocument 500 /500.html
 
 ###############################################################
 # END OF CONFIGURATION

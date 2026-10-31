@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
@@ -27,7 +27,7 @@
   <!-- Sticky Navbar -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.php">
         <img src="assets/uploads/branding/logo_1793049567_7af0ed47.png" alt="Logo UPGRIS" onerror="this.outerHTML='<span class=\'brand-fallback\'>U</span>'">
         <span>KKL Informatika <strong>UPGRIS</strong></span>
       </a>
@@ -39,7 +39,7 @@
         <li><a href="#video">Video</a></li>
         <li><a href="#mahasiswa">Mahasiswa</a></li>
         <li><a href="#cerita">Buku Cerita</a></li>
-        <li><a class="nav-badge-admin" href="admin.html">⚙️ Studio Admin</a></li>
+        <li><a class="nav-badge-admin" href="admin/">⚙️ Studio Admin</a></li>
       </ul>
     </div>
   </header>
@@ -48,12 +48,12 @@
   <section class="hero" id="tentang">
     <div class="hero-bg-overlay"></div>
     <div class="container hero-content">
-      <span class="eyebrow">18—22 AGUSTUS 2026 • SEMARANG — BALI</span>
+      <span class="eyebrow">18–22 AGUSTUS 2026 • SEMARANG – BALI</span>
       <h1>Satu Perjalanan.<br><em>Seribu Kenangan.</em></h1>
       <p>Portal resmi dokumentasi Kuliah Kerja Lapangan (KKL) Program Studi Informatika Universitas PGRI Semarang 2026. Merajut wawasan industri teknologi dan pesona budaya Pulau Dewata.</p>
       
       <div class="hero-actions">
-        <a class="btn btn-gold" href="#itinerary">📅 Jelajahi Itinerary</a>
+        <a class="btn btn-gold" href="#itinerary">📓 Jelajahi Itinerary</a>
         <a class="btn btn-ghost" href="#peta">🗺️ Lihat Peta Interaktif</a>
         <a class="btn btn-ghost" href="#galeri">📸 Foto Kenangan</a>
       </div>
@@ -112,96 +112,56 @@
   <section class="section" id="peta">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">PETA JELAJAH KKL</span>
-        <h2>Rute Perjalanan Semarang ke Bali</h2>
-        <p>Klik titik-titik marker pada peta di bawah ini untuk melihat jadwal kunjungan, industri, kuliner, dan destinasi wisata yang disinggahi.</p>
+        <span class="eyebrow">PETA INTERAKTIF PERJALANAN</span>
+        <h2>Jejak Kami di Pulau Dewata</h2>
+        <p>Eksplorasi rute perjalanan tim KKL Informatika UPGRIS 2026 dari Semarang ke Bali melalui peta interaktif.</p>
       </div>
-
-      <div class="map-wrap">
-        <div id="kklMap"></div>
-        <div class="map-legend-card">
-          <strong>📍 Info Peta Interaktif</strong>
-          Memetakan perjalanan dari Semarang (Kampus 1 UPGRIS), Tol Trans Jawa, penyeberangan Selat Bali, hingga destinasi utama di Pulau Bali.
-        </div>
+      <div class="map-container">
+        <div id="map" style="height: 500px;"></div>
       </div>
     </div>
   </section>
 
-  <!-- Itinerary Timeline Section -->
-  <section class="section section-soft itinerary-section" id="itinerary">
+  <!-- Itinerary Section -->
+  <section class="section" id="itinerary">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">RUNDOWN TERSTRUKTUR</span>
-        <h2>Jadwal Lengkap 5 Hari KKL</h2>
-        <p>Filter agenda harian atau cari kegiatan tertentu menggunakan bilah pencarian instan.</p>
+        <span class="eyebrow">JADWAL LENGKAP PERJALANAN</span>
+        <h2>Rundown 5 Hari 4 Malam</h2>
+        <p>Setiap hari dirancang dengan keseimbangan antara kunjungan industri, eksplorasi budaya, wisata alam, dan kebersamaan tim.</p>
       </div>
-
-      <!-- Toolbar: Tabs, Search & Print -->
-      <div class="itinerary-toolbar">
-        <div class="day-tabs">
-          <button class="day-tab active" data-day="all">Semua Hari (1—5)</button>
-          <button class="day-tab" data-day="1">Hari 1</button>
-          <button class="day-tab" data-day="2">Hari 2</button>
-          <button class="day-tab" data-day="3">Hari 3</button>
-          <button class="day-tab" data-day="4">Hari 4</button>
-          <button class="day-tab" data-day="5">Hari 5</button>
-        </div>
-
-        <div class="itinerary-actions">
-          <div class="search-input-wrap">
-            <input type="text" id="itinerarySearch" placeholder="Cari kegiatan/lokasi...">
-          </div>
-          <button class="btn btn-ghost" id="btnPrintItinerary" title="Cetak jadwal">🖨️ Cetak PDF</button>
-        </div>
+      <div class="itinerary-tabs">
+        <button class="itinerary-tab active" data-day="1">Hari 1</button>
+        <button class="itinerary-tab" data-day="2">Hari 2</button>
+        <button class="itinerary-tab" data-day="3">Hari 3</button>
+        <button class="itinerary-tab" data-day="4">Hari 4</button>
+        <button class="itinerary-tab" data-day="5">Hari 5</button>
       </div>
-
-      <!-- Itinerary Cards Container -->
-      <div id="itineraryList"></div>
+      <div class="itinerary-content" id="itineraryContent"></div>
     </div>
   </section>
 
-  <!-- Photo Gallery Section -->
+  <!-- Gallery Section -->
   <section class="section" id="galeri">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">DOKUMENTASI VISUAL</span>
-        <h2>Galeri Momen Berharga</h2>
-        <p>Potret keindahan lanskap Bali, kunjungan dunia industri teknologi, dan kehangatan kebersamaan mahasiswa Informatika UPGRIS.</p>
+        <span class="eyebrow">GALERI FOTO KENANGAN</span>
+        <h2>Momen Terindah Terabadikan</h2>
+        <p>Koleksi foto dokumentasi perjalanan KKL Informatika UPGRIS 2026.</p>
       </div>
-
-      <div class="gallery-filter-wrap">
-        <button class="gal-filter-btn active" data-cat="all">Semua Foto</button>
-        <button class="gal-filter-btn" data-cat="wisata">🏖️ Wisata & Alam</button>
-        <button class="gal-filter-btn" data-cat="budaya">🎭 Seni & Budaya</button>
-        <button class="gal-filter-btn" data-cat="industri">🏢 Industri & IT</button>
-        <button class="gal-filter-btn" data-cat="kebersamaan">✨ Kebersamaan</button>
-      </div>
-
       <div class="gallery-grid" id="galleryGrid"></div>
     </div>
   </section>
 
-  <!-- Lightbox Modal for Gallery -->
-  <div class="lightbox" id="galleryLightbox">
-    <div class="lightbox-body">
-      <button class="lightbox-close" id="lightboxClose" aria-label="Tutup">✕</button>
-      <img id="lightboxImg" src="" alt="Dokumentasi KKL">
-      <div class="lightbox-caption" id="lightboxCaption"></div>
-    </div>
-  </div>
-
   <!-- Video Section -->
-  <section class="section section-soft" id="video">
+  <section class="section" id="video">
     <div class="container">
       <div class="section-header">
-        <span class="eyebrow">DOKUMENTASI SINEMATIK</span>
-        <h2>Aftermovie & Rekaman Kegiatan</h2>
-        <p>Saksikan kembali rangkuman keseruan perjalanan KKL Informatika UPGRIS dalam tayangan video.</p>
+        <span class="eyebrow">VIDEO KENANGAN</span>
+        <h2>Kenangan Bergerak</h2>
+        <p>Kumpulan video dokumentasi perjalanan dari YouTube.</p>
       </div>
-
-      <div class="video-wrap">
-        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Dokumentasi KKL" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+      <div class="video-grid" id="videoGrid"></div>
     </div>
   </section>
 
@@ -213,7 +173,6 @@
         <h2>Keluarga KKL Informatika 2026</h2>
         <p>Kolaborasi mahasiswa Program Studi Informatika Universitas PGRI Semarang dalam mensukseskan kegiatan KKL.</p>
       </div>
-
       <div class="profiles-grid" id="profilesGrid"></div>
     </div>
   </section>
@@ -242,11 +201,11 @@
             <div class="form-group">
               <label for="fbRating">Rating Pengalaman</label>
               <select id="fbRating" class="form-control" required>
-                <option value="5">★★★★★ — Luar Biasa & Berkesan!</option>
-                <option value="4">★★★★☆ — Sangat Menyenangkan</option>
-                <option value="3">★★★☆☆ — Cukup Seru</option>
-                <option value="2">★★☆☆☆ — Kurang</option>
-                <option value="1">★☆☆☆☆ — Perlu Evaluasi</option>
+                <option value="5">⭐⭐⭐⭐⭐ — Luar Biasa & Berkesan!</option>
+                <option value="4">⭐⭐⭐⭐☆ — Sangat Menyenangkan</option>
+                <option value="3">⭐⭐⭐☆☆ — Cukup Seru</option>
+                <option value="2">⭐⭐☆☆☆ — Kurang</option>
+                <option value="1">⭐☆☆☆☆ — Perlu Evaluasi</option>
               </select>
             </div>
 
@@ -272,7 +231,7 @@
         <div class="footer-brand">
           <h3>KKL Informatika UPGRIS 2026</h3>
           <p>Dokumentasi resmi Kuliah Kerja Lapangan Program Studi Informatika, Fakultas Teknik dan Informatika, Universitas PGRI Semarang.</p>
-          <p style="margin-top:12px;color:#bad3cd;">Pulau Bali • 18—22 Agustus 2026</p>
+          <p style="margin-top:12px;color:#bad3cd;">Pulau Bali • 18–22 Agustus 2026</p>
         </div>
         <div class="footer-col">
           <h4>Navigasi</h4>
@@ -287,9 +246,9 @@
         <div class="footer-col">
           <h4>Studio</h4>
           <ul class="footer-links">
-            <li><a href="admin.html">⚙️ Pengelolaan Admin</a></li>
-            <li><a href="data/kkl_data.json" target="_blank">📄 File JSON Database</a></li>
-            <li><a href="README.md" target="_blank">📖 Panduan Deploy</a></li>
+            <li><a href="admin/">⚙️ Pengelolaan Admin</a></li>
+            <li><a href="data/kkl_data.json" target="_blank">📂 File JSON Database</a></li>
+            <li><a href="README.md" target="_blank">📚 Panduan Deploy</a></li>
           </ul>
         </div>
       </div>
