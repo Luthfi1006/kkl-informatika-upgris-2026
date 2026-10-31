@@ -19,3 +19,11 @@ assets/uploads/branding/
 # Environment
 .env
 .env.local
+
+# Secure files
+.secure/
+*.bak
+admin.html.bak
+admin-migration-snippet.txt
+debug-login.html
+migrate.html
