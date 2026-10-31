@@ -5,21 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KKL Informatika UPGRIS 2026 — Semarang to Bali</title>
   
-  <!-- OpenGraph Meta Tags for WhatsApp & Social Sharing -->
+  <!-- OpenGraph Meta Tags -->
   <meta property="og:title" content="KKL Informatika UPGRIS 2026">
   <meta property="og:description" content="Portal resmi dokumentasi Kuliah Kerja Lapangan Informatika Universitas PGRI Semarang 2026 di Pulau Bali.">
   <meta property="og:image" content="https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80">
   <meta property="og:type" content="website">
 
-  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Leaflet.js Interactive Map CSS -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 
-  <!-- Master App Stylesheet -->
+  <!-- Styles -->
   <link rel="stylesheet" href="assets/css/app.css">
 </head>
 <body>
@@ -27,20 +27,19 @@
   <!-- Sticky Navbar -->
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="index.html">
+      <a class="brand" href="#top">
         <img src="assets/uploads/branding/logo_1793049567_7af0ed47.png" alt="Logo UPGRIS" onerror="this.outerHTML='<span class=\'brand-fallback\'>U</span>'">
         <span>KKL Informatika <strong>UPGRIS</strong></span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#tentang">Tentang</a></li>
-        <li><a href="#peta">Peta Rute</a></li>
-        <li><a href="#itinerary">Itinerary</a></li>
-        <li><a href="#galeri">Galeri</a></li>
-        <li><a href="#video">Video</a></li>
-        <li><a href="#mahasiswa">Mahasiswa</a></li>
-        <li><a href="#cerita">Buku Cerita</a></li>
-        <li><a class="nav-badge-admin" href="admin/">⚙️ Studio Admin</a></li>
-      </ul>
+      <nav class="nav-links">
+        <a href="#tentang">Tentang</a>
+        <a href="#peta">Peta Rute</a>
+        <a href="#itinerary">Itinerary</a>
+        <a href="#galeri">Galeri</a>
+        <a href="#video">Video</a>
+        <a href="#mahasiswa">Mahasiswa</a>
+        <a href="#cerita">Buku Cerita</a>
+      </nav>
     </div>
   </header>
 
@@ -62,25 +61,13 @@
       <div class="countdown-box">
         <span class="countdown-label" id="cdLabel">⏳ Hitung Mundur Keberangkatan:</span>
         <div class="countdown-grid">
-          <div class="cd-unit">
-            <span class="cd-val" id="cdDays">00</span>
-            <span class="cd-lbl">Hari</span>
-          </div>
+          <div class="cd-unit"><span class="cd-val" id="cdDays">00</span><span class="cd-lbl">Hari</span></div>
           <span class="cd-sep">:</span>
-          <div class="cd-unit">
-            <span class="cd-val" id="cdHours">00</span>
-            <span class="cd-lbl">Jam</span>
-          </div>
+          <div class="cd-unit"><span class="cd-val" id="cdHours">00</span><span class="cd-lbl">Jam</span></div>
           <span class="cd-sep">:</span>
-          <div class="cd-unit">
-            <span class="cd-val" id="cdMinutes">00</span>
-            <span class="cd-lbl">Menit</span>
-          </div>
+          <div class="cd-unit"><span class="cd-val" id="cdMinutes">00</span><span class="cd-lbl">Menit</span></div>
           <span class="cd-sep">:</span>
-          <div class="cd-unit">
-            <span class="cd-val" id="cdSeconds">00</span>
-            <span class="cd-lbl">Detik</span>
-          </div>
+          <div class="cd-unit"><span class="cd-val" id="cdSeconds">00</span><span class="cd-lbl">Detik</span></div>
         </div>
       </div>
     </div>
@@ -89,22 +76,10 @@
   <!-- Key Stats Ribbon -->
   <div class="container">
     <div class="stats-ribbon">
-      <div class="stat-item">
-        <div class="stat-num" id="statDays">5</div>
-        <div class="stat-label">Hari Eksplorasi Penuh</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="statAgendas">27</div>
-        <div class="stat-label">Titik Agenda & Destinasi</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="statStudents">10</div>
-        <div class="stat-label">Mahasiswa Tim Pengembang</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num" id="statPhotos">100<span>%</span></div>
-        <div class="stat-label">Dokumentasi Kenangan Digital</div>
-      </div>
+      <div class="stat-item"><div class="stat-num" id="statDays">5</div><div class="stat-label">Hari Eksplorasi Penuh</div></div>
+      <div class="stat-item"><div class="stat-num" id="statAgendas">27</div><div class="stat-label">Titik Agenda & Destinasi</div></div>
+      <div class="stat-item"><div class="stat-num" id="statStudents">10</div><div class="stat-label">Mahasiswa Tim Pengembang</div></div>
+      <div class="stat-item"><div class="stat-num" id="statPhotos">100<span>%</span></div><div class="stat-label">Dokumentasi Kenangan Digital</div></div>
     </div>
   </div>
 
@@ -116,9 +91,7 @@
         <h2>Jejak Kami di Pulau Dewata</h2>
         <p>Eksplorasi rute perjalanan tim KKL Informatika UPGRIS 2026 dari Semarang ke Bali melalui peta interaktif.</p>
       </div>
-      <div class="map-container">
-        <div id="map" style="height: 500px;"></div>
-      </div>
+      <div class="map-container"><div id="map" style="height: 500px;"></div></div>
     </div>
   </section>
 
@@ -187,17 +160,15 @@
       </div>
 
       <div class="feedback-container">
-        <!-- Form -->
         <div class="feedback-form-card">
           <h3>Tulis Pesan & Kesan</h3>
-          <p style="font-size:13.5px;margin-bottom:18px;">Pesanmu akan langsung tampil di dinding kenangan tanpa perlu refresh.</p>
+          <p style="font-size:13.5px;margin-bottom:18px;">Pesanmu akan langsung tampil di dinding kenangan setelah disetujui admin.</p>
 
           <form id="feedbackForm">
             <div class="form-group">
               <label for="fbName">Nama / Panggilan</label>
               <input type="text" id="fbName" class="form-control" placeholder="Contoh: Budi (Informatika)" required maxlength="60">
             </div>
-
             <div class="form-group">
               <label for="fbRating">Rating Pengalaman</label>
               <select id="fbRating" class="form-control" required>
@@ -208,17 +179,14 @@
                 <option value="1">⭐☆☆☆☆ — Perlu Evaluasi</option>
               </select>
             </div>
-
             <div class="form-group">
               <label for="fbMessage">Cerita Pengalamanmu</label>
               <textarea id="fbMessage" class="form-control" rows="4" placeholder="Tuliskan pengalaman favoritmu, pesan untuk teman seangkatan..." required maxlength="600"></textarea>
             </div>
-
             <button type="submit" class="btn btn-primary" style="width:100%;">🚀 Kirim Cerita Sekarang</button>
           </form>
         </div>
 
-        <!-- Wall of Stories -->
         <div class="feedback-wall" id="feedbackWall"></div>
       </div>
     </div>
@@ -244,17 +212,16 @@
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Studio</h4>
+          <h4>Proyek</h4>
           <ul class="footer-links">
-            <li><a href="admin/">⚙️ Pengelolaan Admin</a></li>
-            <li><a href="README.md" target="_blank">📚 Panduan Deploy</a></li>
+            <li><a href="https://github.com/Luthfi1006/kkl-informatika-upgris-2026" target="_blank">📂 Source Code</a></li>
+            <li><a href="README.md" target="_blank">📚 Dokumentasi</a></li>
           </ul>
         </div>
       </div>
-
       <div class="footer-bottom">
         <div>© 2026 Program Studi Informatika Universitas PGRI Semarang. All rights reserved.</div>
-        <div>Built with Supabase + Vercel.</div>
+        <div>Built with Supabase + GitHub Pages.</div>
       </div>
     </div>
   </footer>
@@ -264,10 +231,9 @@
     <button class="float-btn" id="btnBackToTop" title="Kembali ke atas" style="display:none;">↑</button>
   </div>
 
-  <!-- Leaflet.js Interactive Map Script -->
+  <!-- Scripts -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-  <!-- Master Interactive App Script (ES Module) -->
-  <script type="module" src="assets/js/app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/app.js"></script>
 </body>
 </html>
