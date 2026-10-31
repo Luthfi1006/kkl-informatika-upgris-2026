@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/helpers.php';
 $siteLogo = $pdo->query("SELECT value FROM settings WHERE name='logo' LIMIT 1")->fetchColumn();

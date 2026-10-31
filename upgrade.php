@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 require_once "config/database.php";
 try {
     $pdo->exec("CREATE TABLE IF NOT EXISTS destinations (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(160) NOT NULL, visit_date DATE NULL, description TEXT, day_no INT NOT NULL DEFAULT 1, route VARCHAR(255) NULL, sort_order INT NOT NULL DEFAULT 1, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)");

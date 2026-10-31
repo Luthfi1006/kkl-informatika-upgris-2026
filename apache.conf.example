@@ -1,0 +1,93 @@
+﻿# Apache Configuration Template
+# KKL Informatika UPGRIS 2026
+# Location: /etc/apache2/sites-available/kkl-2026.conf
+
+<VirtualHost *:80>
+    ServerName kkl-informatika.upgris.ac.id
+    ServerAlias www.kkl-informatika.upgris.ac.id
+    
+    # Redirect HTTP to HTTPS
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName kkl-informatika.upgris.ac.id
+    ServerAlias www.kkl-informatika.upgris.ac.id
+    
+    # SSL Certificates (Let''s Encrypt)
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/kkl-informatika.upgris.ac.id/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/kkl-informatika.upgris.ac.id/privkey.pem
+    
+    # SSL Configuration
+    SSLProtocol -all +TLSv1.2 +TLSv1.3
+    SSLCipherSuite HIGH:!aNULL:!MD5
+    SSLPreferServerCiphers on
+    
+    # Security Headers
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "no-referrer-when-downgrade"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Root directory
+    DocumentRoot /var/www/kkl-2026
+    
+    # Logging
+    ErrorLog ${APACHE_LOG_DIR}/kkl-2026-error.log
+    CustomLog ${APACHE_LOG_DIR}/kkl-2026-access.log combined
+    
+    # Enable mod_rewrite
+    <Directory /var/www/kkl-2026>
+        RewriteEngine On
+        RewriteBase /
+        
+        # Block access to sensitive files/directories
+        RewriteRule ^\.secure - [F,L]
+        RewriteRule ^\.git - [F,L]
+        RewriteRule ^(\.env|\.sql|database\.sql|debug-login\.html|migrate\.php)$ - [F,L]
+        
+        # Allow all other requests
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^ index.php [QSA,L]
+        
+        # Prevent directory listing
+        Options -Indexes
+        
+        # Allow .php execution
+        <FilesMatch "\.php$">
+            SetHandler "proxy:unix:/run/php/php8.0-fpm.sock|fcgi://localhost"
+        </FilesMatch>
+    </Directory>
+    
+    # Block access to sensitive files
+    <FilesMatch "\.env$|database\.sql$|\.bak$|\.sql$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    
+    # Gzip compression
+    <IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/plain text/html text/xml text/css text/javascript application/javascript application/json
+    </IfModule>
+    
+    # Browser caching
+    <IfModule mod_expires.c>
+        ExpiresActive On
+        ExpiresByType image/jpg "access 1 year"
+        ExpiresByType image/jpeg "access 1 year"
+        ExpiresByType image/gif "access 1 year"
+        ExpiresByType image/png "access 1 year"
+        ExpiresByType image/webp "access 1 year"
+        ExpiresByType text/css "access 1 month"
+        ExpiresByType text/javascript "access 1 month"
+        ExpiresByType application/javascript "access 1 month"
+        ExpiresByType application/x-javascript "access 1 month"
+        ExpiresByType text/x-javascript "access 1 month"
+    </IfModule>
+</VirtualHost>
